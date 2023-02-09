@@ -1,0 +1,35 @@
+spring:
+  profiles:
+    active: ${profile.active}
+
+---
+# 生产
+server:
+  port: 80
+
+spring:
+  config:
+    activate:
+      on-profile: pro
+
+---
+# 开发
+server:
+  port: 81
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
+# 测试
+server:
+  port: 82
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+---
