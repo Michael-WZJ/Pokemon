@@ -5,7 +5,7 @@ spring:
 ---
 # 生产
 server:
-  port: 80
+  port: 8080
 
 spring:
   config:
@@ -15,7 +15,7 @@ spring:
 ---
 # 开发
 server:
-  port: 81
+  port: 8081
 
 spring:
   config:
@@ -25,9 +25,14 @@ spring:
 ---
 # 测试
 server:
-  port: 82
+  port: 8082
+
 
 spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite::resource:Database\census.db
+
   config:
     activate:
       on-profile: test
