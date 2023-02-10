@@ -33,7 +33,7 @@
 			<version>3.0.0</version>
 		</dependency>
 
-		<!-- sqlite -->
+		<!--TODO sqlite -->
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
@@ -80,7 +80,7 @@
 		</plugins>
 	</build>
 
-	<!-- 多环境启动配置 -->
+	<!--TODO 多环境启动配置 -->
 	<profiles>
 		<profile>
 			<id>dev_env</id>

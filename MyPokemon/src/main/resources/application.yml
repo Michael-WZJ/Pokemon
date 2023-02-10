@@ -1,3 +1,5 @@
+#TODO 配置数据源相关信息
+
 spring:
   profiles:
     active: ${profile.active}
@@ -27,11 +29,14 @@ spring:
 server:
   port: 8082
 
+logging:
+  level:
+    root: warn
 
 spring:
   datasource:
     driver-class-name: org.sqlite.JDBC
-    url: jdbc:sqlite::resource:Database\census.db
+    url: jdbc:sqlite::resource:Database/census.db
 
   config:
     activate:
