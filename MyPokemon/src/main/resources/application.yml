@@ -10,6 +10,10 @@ server:
   port: 8080
 
 spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite::resource:Database/pokemon.db
+
   config:
     activate:
       on-profile: pro
@@ -20,6 +24,10 @@ server:
   port: 8081
 
 spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite::resource:Database/pokemon.db
+
   config:
     activate:
       on-profile: dev
