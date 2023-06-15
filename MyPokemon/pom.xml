@@ -67,6 +67,7 @@
 			</plugin>
 
 			<!-- 对资源文件开启对默认占位符的解析 -->
+			<!-- 用于关联 pom.xml 和 application.yml -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
