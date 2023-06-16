@@ -4,6 +4,13 @@ spring:
   profiles:
     active: ${profile.active}
 
+#TODO 开启MyBatis自动映射驼峰命名
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    # 往控制台输出MyBatis日志
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 ---
 # 生产
 server:
