@@ -23,8 +23,13 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     }
 
     @Override
-    public PokemonBaseInfo getBycode(String code) {
+    public PokemonBaseInfo getByCode(String code) {
         return baseInfoDao.getByCode(code);
+    }
+
+    @Override
+    public List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon) {
+        return baseInfoDao.getByCondition(pokemon);
     }
 
     @Override
@@ -48,7 +53,7 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
 
     @Override
     public boolean deleteByCode(String code) {
-        int flag = baseInfoDao.delete(code);
+        int flag = baseInfoDao.deleteByCode(code);
         return flag > 0;
     }
 

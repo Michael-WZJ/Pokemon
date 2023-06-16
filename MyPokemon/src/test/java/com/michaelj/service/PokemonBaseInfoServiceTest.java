@@ -34,7 +34,7 @@ public class PokemonBaseInfoServiceTest {
     @Test
     public void testGetByCode() {
         assertTrue(baseInfoService.save(createTestPokemon("testGet")));
-        PokemonBaseInfo pokemon = baseInfoService.getBycode("testGet");
+        PokemonBaseInfo pokemon = baseInfoService.getByCode("testGet");
         assertEquals(pokemon.getName(), "test");
         assertEquals(pokemon.getNameJpn(), "test");
         assertEquals(pokemon.getNameEng(), "test");
@@ -50,12 +50,12 @@ public class PokemonBaseInfoServiceTest {
     @Test
     public void testUpdate() {
         assertTrue(baseInfoService.save(createTestPokemon("testUpdate")));
-        PokemonBaseInfo pokemon = baseInfoService.getBycode("testUpdate");
+        PokemonBaseInfo pokemon = baseInfoService.getByCode("testUpdate");
         assertEquals(pokemon.getName(), "test");
 
         pokemon.setName("testUpdate");
         assertTrue(baseInfoService.update(pokemon));
-        pokemon = baseInfoService.getBycode("testUpdate");
+        pokemon = baseInfoService.getByCode("testUpdate");
         assertEquals(pokemon.getName(), "testUpdate");
         assertTrue(baseInfoService.deleteByCode("testUpdate"));
     }

@@ -19,7 +19,14 @@ public interface PokemonBaseInfoService {
      * @param code
      * @return
      */
-    PokemonBaseInfo getBycode(String code);
+    PokemonBaseInfo getByCode(String code);
+
+    /**
+     * 条件查询
+     * @param pokemon
+     * @return
+     */
+    List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon);
 
     /**
      * 保存
