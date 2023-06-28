@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//TODO 开启事务
+// TODO 开启事务
 @Transactional
 public interface PokemonBaseInfoService {
     /**

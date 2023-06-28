@@ -46,6 +46,20 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--TODO JWT令牌 -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+
+		<!-- 包含DatatypeConverter，用于辅助jwt生成 -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+
 		<!-- MySQL -->
 		<!--
 		<dependency>
