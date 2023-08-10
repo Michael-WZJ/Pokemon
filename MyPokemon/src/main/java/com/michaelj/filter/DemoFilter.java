@@ -5,7 +5,7 @@ import jakarta.servlet.annotation.WebFilter;
 
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/mypokes/*", "/users/*"})
+//@WebFilter(urlPatterns = {"/mypokes/*", "/users/*"})
 public class DemoFilter implements Filter {
     @Override // 初始化方法，只调用一次
     public void init(FilterConfig filterConfig) throws ServletException {
