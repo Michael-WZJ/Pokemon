@@ -28,6 +28,14 @@ public interface PokemonBaseInfoService {
      */
     List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon);
 
+
+
+    /**
+     * 查询全部宝可梦的数量
+     * @return
+     */
+    Long getPokeCount();
+
     /**
      * 保存
      * @param pokemon

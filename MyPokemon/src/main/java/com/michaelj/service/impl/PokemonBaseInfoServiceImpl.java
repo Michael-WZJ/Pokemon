@@ -33,6 +33,11 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     }
 
     @Override
+    public Long getPokeCount() {
+        return baseInfoDao.getPokeCount();
+    }
+
+    @Override
     public boolean save(PokemonBaseInfo pokemon) {
         try {
             int flag = baseInfoDao.save(pokemon);

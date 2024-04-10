@@ -16,6 +16,9 @@ public interface PokemonBaseInfoDao {
 
     List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon);
 
+    @Select("select count(*) from PokeBaseInfo")
+    Long getPokeCount();
+
     @Insert("insert into PokeBaseInfo (code, name, gen, prop1, prop2, name_jpn, name_eng, pic) " +
             "values(#{code}, #{name}, #{gen}, #{prop1}, #{prop2}, #{nameJpn}, #{nameEng}, #{pic})")
     int save(PokemonBaseInfo pokemon);
