@@ -11,6 +11,9 @@ mybatis:
     # 往控制台输出MyBatis日志
     #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+# 在端口号后 添加 路径
+# server: servlet: context-path: /testpath
+
 ---
 # 生产
 server:

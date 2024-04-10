@@ -1,4 +1,4 @@
-package com.michaelj.controller;
+package com.michaelj.exception;
 
 import com.michaelj.domain.Code;
 import com.michaelj.domain.Result;
@@ -30,7 +30,7 @@ public class ProjectExceptionAdvice {
      * 发送邮件给开发人员
      * 发送短信给运维人员
      */
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class) // 捕获所有异常
     public Result doException(Exception e) {
         return new Result(Code.SYSTEM_UNKNOWN_ERR.getCode(), null, "系统繁忙，请联系管理员！");
     }

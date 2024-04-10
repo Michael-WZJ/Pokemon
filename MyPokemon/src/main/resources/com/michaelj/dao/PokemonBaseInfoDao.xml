@@ -7,7 +7,7 @@
         <!-- Sqlite不支持concat() -->
         select * from PokeBaseInfo
         <where>
-            <if test="name != null">
+            <if test="name != null and name != ''">
                 name like '%'||#{name}||'%'
             </if>
             <if test="gen != null">
