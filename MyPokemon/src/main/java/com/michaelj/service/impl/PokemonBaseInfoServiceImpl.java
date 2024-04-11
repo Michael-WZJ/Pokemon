@@ -3,7 +3,7 @@ package com.michaelj.service.impl;
 import com.michaelj.dao.PokemonBaseInfoDao;
 import com.michaelj.domain.Code;
 import com.michaelj.domain.PokemonBaseInfo;
-import com.michaelj.exception.BusinessException;
+import com.michaelj.infrastructure.exception.BusinessException;
 import com.michaelj.service.PokemonBaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;

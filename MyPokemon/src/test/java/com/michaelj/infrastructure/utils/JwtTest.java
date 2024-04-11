@@ -1,4 +1,4 @@
-package com.michaelj.utils;
+package com.michaelj.infrastructure.utils;
 
 import org.junit.jupiter.api.Test;
 

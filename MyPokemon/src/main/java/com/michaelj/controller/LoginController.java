@@ -4,7 +4,7 @@ import com.michaelj.domain.Code;
 import com.michaelj.domain.Result;
 import com.michaelj.domain.User;
 import com.michaelj.service.UserService;
-import com.michaelj.utils.JwtUtils;
+import com.michaelj.infrastructure.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
