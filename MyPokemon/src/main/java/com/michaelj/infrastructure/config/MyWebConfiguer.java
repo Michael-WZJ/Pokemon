@@ -1,4 +1,4 @@
-package com.michaelj.config;
+package com.michaelj.infrastructure.config;
 
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

@@ -1,4 +1,4 @@
-package com.michaelj.utils;
+package com.michaelj.infrastructure.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

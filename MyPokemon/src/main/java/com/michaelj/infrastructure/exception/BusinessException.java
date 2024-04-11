@@ -1,4 +1,4 @@
-package com.michaelj.exception;
+package com.michaelj.infrastructure.exception;
 
 import com.michaelj.domain.Code;
 

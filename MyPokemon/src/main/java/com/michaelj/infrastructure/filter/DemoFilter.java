@@ -1,4 +1,4 @@
-package com.michaelj.filter;
+package com.michaelj.infrastructure.filter;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
