@@ -1,6 +1,6 @@
 package com.michaelj.service;
 
-import com.michaelj.domain.PokemonBaseInfo;
+import com.michaelj.domain.entity.PokemonBaseInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

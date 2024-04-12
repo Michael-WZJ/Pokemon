@@ -1,6 +1,6 @@
 package com.michaelj.service;
 
-import com.michaelj.domain.User;
+import com.michaelj.domain.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

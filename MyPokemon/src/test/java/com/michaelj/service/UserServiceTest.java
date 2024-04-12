@@ -1,6 +1,6 @@
 package com.michaelj.service;
 
-import com.michaelj.domain.User;
+import com.michaelj.domain.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

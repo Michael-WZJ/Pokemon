@@ -2,7 +2,7 @@ package com.michaelj.controller;
 
 import com.michaelj.domain.Code;
 import com.michaelj.domain.Result;
-import com.michaelj.domain.User;
+import com.michaelj.domain.entity.User;
 import com.michaelj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/web/users")
 public class UserController {
     @Autowired
     private UserService userService;

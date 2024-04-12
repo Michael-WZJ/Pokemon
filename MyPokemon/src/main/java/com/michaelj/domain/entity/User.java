@@ -1,4 +1,4 @@
-package com.michaelj.domain;
+package com.michaelj.domain.entity;
 
 public class User {
     private Integer id;

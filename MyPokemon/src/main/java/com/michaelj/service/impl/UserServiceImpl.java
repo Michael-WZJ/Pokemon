@@ -1,7 +1,7 @@
 package com.michaelj.service.impl;
 
 import com.michaelj.dao.UserDao;
-import com.michaelj.domain.User;
+import com.michaelj.domain.entity.User;
 import com.michaelj.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.michaelj.dao;
 
-import com.michaelj.domain.PokemonBaseInfo;
+import com.michaelj.domain.entity.PokemonBaseInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.michaelj.dao;
 
-import com.michaelj.domain.User;
+import com.michaelj.domain.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
