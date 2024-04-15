@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.michaelj.dao.PropertyMapper">
+    <resultMap id="PropertyResult" type="com.michaelj.domain.entity.Property">
+    </resultMap>
+
+    <sql id="BaseColumnMap">
+        t0.prop_id, t0.prop_code, t0.prop_name, t0.prop_sort
+    </sql>
+
+    <select id="getAllProp" resultMap="PropertyResult">
+        select
+        <include refid="BaseColumnMap"/>
+        from Property t0
+        <where>
+            t0.deleted = 0
+        </where>
+        order by prop_sort ASC
+    </select>
+</mapper>
