@@ -17,5 +17,6 @@
         <where>
             t0.deleted = 0
         </where>
+        order by gen_sort ASC
     </select>
 </mapper>
