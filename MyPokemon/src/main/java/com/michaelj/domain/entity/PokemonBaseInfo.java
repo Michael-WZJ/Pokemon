@@ -4,7 +4,7 @@ public class PokemonBaseInfo {
     /**
      * Id
      */
-    private Long pokeBaseid;
+    private Long pokeBaseId;
 
     /**
      * 编号
@@ -54,8 +54,8 @@ public class PokemonBaseInfo {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
     /*                      Accessor and Mutator Methods                        */
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-    public Long getPokeBaseid() {
-        return pokeBaseid;
+    public Long getPokeBaseId() {
+        return pokeBaseId;
     }
 
     public String getPokeBaseCode() {
@@ -90,8 +90,8 @@ public class PokemonBaseInfo {
         return pokeBasePic;
     }
 
-    public void setPokeBaseid(Long pokeBaseid) {
-        this.pokeBaseid = pokeBaseid;
+    public void setPokeBaseId(Long pokeBaseId) {
+        this.pokeBaseId = pokeBaseId;
     }
 
     public void setPokeBaseCode(String pokeBaseCode) {

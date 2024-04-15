@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-// TODO 开启事务
-@Transactional
+// TODO 开启事务【涉及一个方法包含多个ddl操作，才需要开启事务】
+//@Transactional
 public interface PokemonBaseInfoService {
     /**
      * 条件查询宝可梦信息
