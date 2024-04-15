@@ -24,8 +24,11 @@
             <if test="pokeBaseName != null and pokeBaseName != ''">
                 and poke_base_name like '%'||#{pokeBaseName}||'%'
             </if>
-            <if test="gen != null and gen != ''">
-                and gen = #{gen}
+            <if test="gen != null and gen.size > 0">
+                and gen in
+                <foreach collection="gen" item="g" open="(" separator="," close=")">
+                    #{g}
+                </foreach>
             </if>
             <if test="prop1 != null and prop2 != null">
                 and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))

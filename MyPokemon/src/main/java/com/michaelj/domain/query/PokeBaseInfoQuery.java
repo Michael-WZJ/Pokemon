@@ -3,6 +3,8 @@ package com.michaelj.domain.query;
 import com.michaelj.domain.base.PageParams;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 宝可梦基本信息查询对象
  */
@@ -21,7 +23,7 @@ public class PokeBaseInfoQuery extends PageParams {
     /**
      * 世代
      */
-    private String gen;
+    private List<String> gen;
 
     /**
      * 属性1
