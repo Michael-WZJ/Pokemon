@@ -3,9 +3,19 @@ package com.michaelj.domain.base;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 public class PageParams {
     private int pageNo = 1;
     private int pageSize = 10;
+
+    /**
+     * wzj增加，sql查询 起始偏移量
+     */
+//    @JsonInclude(Include.NON_NULL)
+    private Long start = 0L;
+
     private List<OrderBy> orderBys;
 
     public PageParams() {
@@ -101,5 +111,13 @@ public class PageParams {
 
     public void setOrderBys(List<OrderBy> orderBys) {
         this.orderBys = orderBys;
+    }
+
+    public long getStart() {
+        return start;
+    }
+
+    public void setStart(Long start) {
+        this.start = start;
     }
 }
