@@ -17,8 +17,8 @@ public class PokemonBaseInfoServiceTest {
     // 创建一个测试宝可梦
     private PokemonBaseInfo createTestPokemon(String code) {
         PokemonBaseInfo pokemon = new PokemonBaseInfo();
-        pokemon.setCode(code);
-        pokemon.setName("test");
+        pokemon.setPokeBaseCode(code);
+        pokemon.setPokeBaseName("test");
         pokemon.setGen("test");
         pokemon.setNameEng("test");
         pokemon.setNameJpn("test");
@@ -35,7 +35,7 @@ public class PokemonBaseInfoServiceTest {
     public void testGetByCode() {
         assertTrue(baseInfoService.save(createTestPokemon("testGet")));
         PokemonBaseInfo pokemon = baseInfoService.getByCode("testGet");
-        assertEquals(pokemon.getName(), "test");
+        assertEquals(pokemon.getPokeBaseName(), "test");
         assertEquals(pokemon.getNameJpn(), "test");
         assertEquals(pokemon.getNameEng(), "test");
         assertTrue(baseInfoService.deleteByCode("testGet"));
@@ -51,12 +51,12 @@ public class PokemonBaseInfoServiceTest {
     public void testUpdate() {
         assertTrue(baseInfoService.save(createTestPokemon("testUpdate")));
         PokemonBaseInfo pokemon = baseInfoService.getByCode("testUpdate");
-        assertEquals(pokemon.getName(), "test");
+        assertEquals(pokemon.getPokeBaseName(), "test");
 
-        pokemon.setName("testUpdate");
+        pokemon.setPokeBaseName("testUpdate");
         assertTrue(baseInfoService.update(pokemon));
         pokemon = baseInfoService.getByCode("testUpdate");
-        assertEquals(pokemon.getName(), "testUpdate");
+        assertEquals(pokemon.getPokeBaseName(), "testUpdate");
         assertTrue(baseInfoService.deleteByCode("testUpdate"));
     }
 }
