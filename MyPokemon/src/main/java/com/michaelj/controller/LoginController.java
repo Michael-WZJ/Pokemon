@@ -1,7 +1,7 @@
 package com.michaelj.controller;
 
 import com.michaelj.domain.Code;
-import com.michaelj.domain.Result;
+import com.michaelj.domain.base.Result;
 import com.michaelj.domain.entity.User;
 import com.michaelj.service.UserService;
 import com.michaelj.infrastructure.utils.JwtUtils;

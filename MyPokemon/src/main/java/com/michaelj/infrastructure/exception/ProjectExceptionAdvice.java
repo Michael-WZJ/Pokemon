@@ -1,7 +1,7 @@
 package com.michaelj.infrastructure.exception;
 
 import com.michaelj.domain.Code;
-import com.michaelj.domain.Result;
+import com.michaelj.domain.base.Result;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

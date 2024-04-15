@@ -1,4 +1,4 @@
-package com.michaelj.domain;
+package com.michaelj.domain.base;
 
 public class Result {
     private Integer code;
