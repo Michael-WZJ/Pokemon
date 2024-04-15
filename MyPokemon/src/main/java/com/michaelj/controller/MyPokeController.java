@@ -1,6 +1,7 @@
 package com.michaelj.controller;
 
 import com.michaelj.domain.Code;
+import com.michaelj.domain.base.Page;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.base.Result;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
@@ -23,7 +24,7 @@ public class MyPokeController {
      */
     @PostMapping("/pageList")
     public Result pageList(@RequestBody PokeBaseInfoQuery pokeBaseInfoQuery) {
-        List<PokemonBaseInfo> pokemonList = baseInfoService.selectPageList(pokeBaseInfoQuery);
+        Page<PokemonBaseInfo> pokemonList = baseInfoService.selectPageList(pokeBaseInfoQuery);
         return new Result(Code.GET_OK.getCode(), pokemonList);
     }
 

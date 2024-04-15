@@ -16,6 +16,14 @@ public interface PokemonBaseInfoDao {
      */
     List<PokemonBaseInfo> selectPageList(PokeBaseInfoQuery query);
 
+    /**
+     * 条件查询宝可梦信息，只获取数据量
+     * @param query
+     * @return
+     */
+    long selectPageListCount(PokeBaseInfoQuery query);
+
+
     @Select("select * from PokeBaseInfo")
     List<PokemonBaseInfo> getAll();
 

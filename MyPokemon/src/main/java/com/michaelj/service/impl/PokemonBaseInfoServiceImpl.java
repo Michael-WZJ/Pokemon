@@ -2,9 +2,11 @@ package com.michaelj.service.impl;
 
 import com.michaelj.dao.PokemonBaseInfoDao;
 import com.michaelj.domain.Code;
+import com.michaelj.domain.base.Page;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
 import com.michaelj.infrastructure.exception.BusinessException;
+import com.michaelj.infrastructure.utils.PageExecutor;
 import com.michaelj.service.PokemonBaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -25,8 +27,18 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
      * @return
      */
     @Override
-    public List<PokemonBaseInfo> selectPageList(PokeBaseInfoQuery query) {
-        return baseInfoDao.selectPageList(query);
+    public Page<PokemonBaseInfo> selectPageList(PokeBaseInfoQuery query) {
+        return PageExecutor.pagination(query, new PageExecutor.PageDataLoader<PokemonBaseInfo>() {
+            @Override
+            public List<PokemonBaseInfo> load() {
+                return baseInfoDao.selectPageList(query);
+            }
+
+            @Override
+            public long count() {
+                return baseInfoDao.selectPageListCount(query);
+            }
+        });
     }
 
     @Override
