@@ -1,8 +1,9 @@
 package com.michaelj.controller;
 
 import com.michaelj.domain.Code;
-import com.michaelj.domain.PokemonBaseInfo;
-import com.michaelj.domain.Result;
+import com.michaelj.domain.entity.PokemonBaseInfo;
+import com.michaelj.domain.base.Result;
+import com.michaelj.domain.query.PokeBaseInfoQuery;
 import com.michaelj.service.PokemonBaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +11,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mypokes")
+@RequestMapping("/web/mypokes")
 public class MyPokeController {
     @Autowired
     private PokemonBaseInfoService baseInfoService;
+
+    /**
+     * 条件查询宝可梦信息
+     * @param pokeBaseInfoQuery
+     * @return
+     */
+    @PostMapping("/pageList")
+    public Result pageList(@RequestBody PokeBaseInfoQuery pokeBaseInfoQuery) {
+        List<PokemonBaseInfo> pokemonList = baseInfoService.selectPageList(pokeBaseInfoQuery);
+        return new Result(Code.GET_OK.getCode(), pokemonList);
+    }
 
     @GetMapping
     public Result getAllBaseInfo() {
@@ -41,6 +53,10 @@ public class MyPokeController {
         return new Result(code, pokemonList, msg);
     }
 
+    /**
+     * 获取所有宝可梦数量
+     * @return
+     */
     @GetMapping("/count")
     public Result getPokeCount() {
         Long cnt = baseInfoService.getPokeCount();

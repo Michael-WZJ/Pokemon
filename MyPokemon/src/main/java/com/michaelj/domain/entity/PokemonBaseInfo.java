@@ -1,29 +1,69 @@
 package com.michaelj.domain.entity;
 
 public class PokemonBaseInfo {
-    private String code;
-    private String name;
+    /**
+     * Id
+     */
+    private Long pokeBaseid;
+
+    /**
+     * 编号
+     */
+    private String pokeBaseCode;
+
+    /**
+     * 名称
+     */
+    private String pokeBaseName;
+
+    /**
+     * 世代
+     */
     private String gen;
+
+    /**
+     * 属性1
+     */
     private String prop1;
+
+    /**
+     * 属性2
+     */
     private String prop2;
+
+    /**
+     * 日文名
+     */
     private String nameJpn;
+
+    /**
+     * 英文名
+     */
     private String nameEng;
-    private String pic;
+
+    /**
+     * 图片路径
+     */
+    private String pokeBasePic;
 
     @Override
     public String toString() {
-        return code + " " + name + " " + gen;
+        return pokeBaseCode + " " + pokeBaseName + " " + gen;
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
     /*                      Accessor and Mutator Methods                        */
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
-    public String getCode() {
-        return code;
+    public Long getPokeBaseid() {
+        return pokeBaseid;
     }
 
-    public String getName() {
-        return name;
+    public String getPokeBaseCode() {
+        return pokeBaseCode;
+    }
+
+    public String getPokeBaseName() {
+        return pokeBaseName;
     }
 
     public String getGen() {
@@ -46,16 +86,20 @@ public class PokemonBaseInfo {
         return nameEng;
     }
 
-    public String getPic() {
-        return pic;
+    public String getPokeBasePic() {
+        return pokeBasePic;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setPokeBaseid(Long pokeBaseid) {
+        this.pokeBaseid = pokeBaseid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPokeBaseCode(String pokeBaseCode) {
+        this.pokeBaseCode = pokeBaseCode;
+    }
+
+    public void setPokeBaseName(String pokeBaseName) {
+        this.pokeBaseName = pokeBaseName;
     }
 
     public void setGen(String gen) {
@@ -78,7 +122,7 @@ public class PokemonBaseInfo {
         this.nameEng = nameEng;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setPokeBasePic(String pokeBasePic) {
+        this.pokeBasePic = pokeBasePic;
     }
 }

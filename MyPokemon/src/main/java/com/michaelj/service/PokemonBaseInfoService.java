@@ -1,6 +1,7 @@
 package com.michaelj.service;
 
 import com.michaelj.domain.entity.PokemonBaseInfo;
+import com.michaelj.domain.query.PokeBaseInfoQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -8,6 +9,13 @@ import java.util.List;
 // TODO 开启事务
 @Transactional
 public interface PokemonBaseInfoService {
+    /**
+     * 条件查询宝可梦信息
+     * @param query
+     * @return
+     */
+    List<PokemonBaseInfo> selectPageList(PokeBaseInfoQuery query);
+
     /**
      * 查找全部宝可梦基础信息
      * @return

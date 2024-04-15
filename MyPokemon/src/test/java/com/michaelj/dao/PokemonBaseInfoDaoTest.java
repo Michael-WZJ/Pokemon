@@ -21,7 +21,7 @@ public class PokemonBaseInfoDaoTest {
     @Test
     public void testGetByCondition() {
         PokemonBaseInfo pokemon = new PokemonBaseInfo();
-        pokemon.setCode("test");
+        pokemon.setPokeBaseCode("test");
         //pokemon.setName("蛙");
         //pokemon.setGen("OP");
         //pokemon.setProp1("毒");
@@ -44,12 +44,12 @@ public class PokemonBaseInfoDaoTest {
     @Test
     public void testUpdate() {
         PokemonBaseInfo pokemon = new PokemonBaseInfo();
-        pokemon.setCode("testUpdate");
-        pokemon.setName("蛙");
+        pokemon.setPokeBaseCode("testUpdate");
+        pokemon.setPokeBaseName("蛙");
         pokemon.setGen("OP");
         baseInfoDao.save(pokemon);
 
-        pokemon.setName("青蛙");
+        pokemon.setPokeBaseName("青蛙");
         baseInfoDao.update(pokemon);
         System.out.println(baseInfoDao.getByCode("testUpdate"));
 

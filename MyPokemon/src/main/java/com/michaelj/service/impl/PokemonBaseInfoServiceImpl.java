@@ -3,6 +3,7 @@ package com.michaelj.service.impl;
 import com.michaelj.dao.PokemonBaseInfoDao;
 import com.michaelj.domain.Code;
 import com.michaelj.domain.entity.PokemonBaseInfo;
+import com.michaelj.domain.query.PokeBaseInfoQuery;
 import com.michaelj.infrastructure.exception.BusinessException;
 import com.michaelj.service.PokemonBaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,17 @@ import java.util.List;
 public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     @Autowired
     private PokemonBaseInfoDao baseInfoDao;
+
+    /**
+     * 条件查询宝可梦信息
+     *
+     * @param query
+     * @return
+     */
+    @Override
+    public List<PokemonBaseInfo> selectPageList(PokeBaseInfoQuery query) {
+        return baseInfoDao.selectPageList(query);
+    }
 
     @Override
     public List<PokemonBaseInfo> getAll() {

@@ -3,12 +3,48 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.michaelj.dao.PokemonBaseInfoDao">
-    <select id="getByCondition" resultType="com.michaelj.domain.entity.PokemonBaseInfo">
-        <!-- Sqlite不支持concat() -->
-        select * from PokeBaseInfo
+
+    <resultMap id="PokeBaseInfoResult" type="com.michaelj.domain.entity.PokemonBaseInfo">
+    </resultMap>
+
+    <sql id="BaseColumnMap">
+        t0.poke_base_id, t0.poke_base_code, t0.poke_base_name, t0.gen, t0.prop1, t0.prop2,
+        t0.name_jpn, t0.name_eng, t0.poke_base_pic
+    </sql>
+
+    <select id="selectPageList" resultMap="PokeBaseInfoResult">
+        select
+        <include refid="BaseColumnMap"/>
+        from PokeBaseInfo t0
         <where>
-            <if test="name != null and name != ''">
-                name like '%'||#{name}||'%'
+            t0.deleted = 0
+            <if test="pokeBaseCode != null and pokeBaseCode != ''">
+                and poke_base_code = #{pokeBaseCode}
+            </if>
+            <if test="pokeBaseName != null and pokeBaseName != ''">
+                and poke_base_name like '%'||#{pokeBaseName}||'%'
+            </if>
+            <if test="gen != null and gen != ''">
+                and gen = #{gen}
+            </if>
+            <if test="prop1 != null and prop2 != null">
+                and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))
+            </if>
+            <if test="prop1 != null xor prop2 != null">
+                and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
+            </if>
+        </where>
+        order by poke_base_code ASC
+    </select>
+
+    <select id="getByCondition" resultMap="PokeBaseInfoResult">
+        <!-- Sqlite不支持concat() -->
+        select <include refid="BaseColumnMap"/>
+        from PokeBaseInfo t0
+        <where>
+            t0.deleted = 0
+            <if test="pokeBaseName != null and pokeBaseName != ''">
+                and poke_base_name like '%'||#{pokeBaseName}||'%'
             </if>
             <if test="gen != null">
                 and gen = #{gen}
@@ -25,8 +61,8 @@
     <update id="update">
         update PokeBaseInfo
         <set>
-            <if test="name != null">
-                name = #{name},
+            <if test="pokeBaseName != null">
+                poke_base_name = #{pokeBaseName},
             </if>
             <if test="gen != null">
                 gen = #{gen},
@@ -43,10 +79,10 @@
             <if test="nameEng != null">
                 name_eng = #{nameEng},
             </if>
-            <if test="pic != null">
-                pic = #{pic}
+            <if test="pokeBasePic != null">
+                poke_base_pic = #{pokeBasePic}
             </if>
         </set>
-        where code = #{code}
+        where poke_base_code = #{pokeBaseCode}
     </update>
 </mapper>
