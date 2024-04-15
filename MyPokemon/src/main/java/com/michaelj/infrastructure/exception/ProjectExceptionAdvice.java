@@ -30,6 +30,7 @@ public class ProjectExceptionAdvice {
      */
     @ExceptionHandler(Exception.class) // 捕获所有异常
     public Result doException(Exception e) {
-        return new Result(Code.SYSTEM_UNKNOWN_ERR.getCode(), null, "系统繁忙，请联系管理员！");
+//        return new Result(Code.SYSTEM_UNKNOWN_ERR.getCode(), null, "系统繁忙，请联系管理员！");
+        return new Result(Code.SYSTEM_UNKNOWN_ERR.getCode(), null, e.getMessage());
     }
 }
