@@ -47,7 +47,7 @@
 <script>
 import { crudOptions } from "@/views/pokeBaseInfo/crudOptions";
 import MixinCrud from "@/mixin/avueCrud";
-import { getBaseInfoList ,getAllBaseInfo } from "@/api/pokeBaseInfoApi"
+import { getBaseInfoList, delBaseInfoByCode, delBaseInfoByCodes ,getAllBaseInfo } from "@/api/pokeBaseInfoApi"
 
 export default {
   name: "PokeBaseInfo",
@@ -55,7 +55,9 @@ export default {
   data() {
     return {
       api: {
-        listApi: getBaseInfoList
+        listApi: getBaseInfoList,
+        deleteApi: delBaseInfoByCode,
+        batchDeleteApi: delBaseInfoByCodes
       },
       searches: {},
       form: {}
@@ -105,9 +107,88 @@ export default {
     },
     // 发送删除请求
     async rowDel(row) {
+      const code = row.pokeBaseCode;
+      if (!code) {
+        this.$message({
+          message: "请传入code",
+          type: "warning"
+        });
+        return;
+      }
+
+      if (!this.api.deleteApi) {
+        this.$message({
+          message: "请设置api.delete属性!",
+          type: "warning"
+        });
+        return;
+      }
+
+      this.$confirm(`此操作将删除选中宝可梦，且不可恢复。确定删除？`, "删除", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.api
+            .deleteApi(code)
+            .then(res => {
+              if (res.data.code === 10021) {
+                this.filter.page = 1;
+                this.onLoad();
+                this.$message({
+                  showClose: true,
+                  message: "删除成功",
+                  type: "success"
+                });
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: res.data.msg,
+                  type: "error"
+                });
+              }
+            })
+            .catch(err => {
+              console.log(err, "接口请求失败");
+            });
+      }).catch(() => {});
     },
     // 批量删除
-    async handleDelList() {},
+    async handleDelList() {
+      // console.log(this.selectCount);
+      this.$confirm("此操作将删除选中宝可梦，且不可恢复。确定删除？", "批量删除", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        const deleteCodes = this.selectList.map(item => item.pokeBaseCode);
+        console.log(deleteCodes);
+        if (deleteCodes.length === 0) {
+          return;
+        }
+        this.api
+            .batchDeleteApi(deleteCodes)
+            .then(res => {
+              if (res.data.code === 10021) {
+                this.onLoad();
+                this.$message({
+                  showClose: true,
+                  message: res.data.data,
+                  type: "success"
+                });
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: res.data.msg,
+                  type: "error"
+                });
+              }
+            })
+            .catch(err => {
+              console.log(err, "接口请求失败");
+            });
+      }).catch(() => {});
+    },
 
     // 检查数据有效性
     verifyForm(submitForm) {}

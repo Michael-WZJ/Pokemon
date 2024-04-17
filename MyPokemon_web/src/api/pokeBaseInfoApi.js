@@ -24,3 +24,20 @@ export function getBaseInfoDetail(code) {
     loading: true
   });
 }
+
+// 根据code删除
+export function delBaseInfoByCode(code) {
+  return request({
+    url: `${PREFIX}/` + code,
+    method: "DELETE"
+  });
+}
+
+// 根据code批量删除
+export function delBaseInfoByCodes(data) {
+  return request({
+    url: `${PREFIX}/deleteByCodes`,
+    method: "DELETE",
+    data
+  });
+}
