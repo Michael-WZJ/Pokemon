@@ -65,4 +65,11 @@ public interface PokemonBaseInfoService {
      * @return
      */
     boolean deleteByCode(String code);
+
+    /**
+     * 批量删除宝可梦基本信息
+     * @param codeList
+     * @return
+     */
+    int deleteByCodeList(List<String> codeList);
 }

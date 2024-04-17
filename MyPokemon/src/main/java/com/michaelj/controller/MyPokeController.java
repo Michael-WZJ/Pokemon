@@ -28,6 +28,19 @@ public class MyPokeController {
         return new Result(Code.GET_OK.getCode(), pokemonList);
     }
 
+    /**
+     * 按code查询
+     * @param pokeCode
+     * @return
+     */
+    @GetMapping("/{pokeCode}")
+    public Result getByCode(@PathVariable String pokeCode) {
+        PokemonBaseInfo pokemon = baseInfoService.getByCode(pokeCode);
+        int code = pokemon != null ? Code.GET_OK.getCode() : Code.GET_ERR.getCode();
+        String msg = pokemon != null ? "查询成功" : "数据查询失败， 请重试！";
+        return new Result(code, pokemon, msg);
+    }
+
     @GetMapping
     public Result getAllBaseInfo() {
         //System.out.println("controller get");
@@ -36,14 +49,6 @@ public class MyPokeController {
         int code = pokemonList != null ? Code.GET_OK.getCode() : Code.GET_ERR.getCode();
         String msg = pokemonList != null ? "查询成功" : "数据查询失败， 请重试！";
         return new Result(code, pokemonList, msg);
-    }
-
-    @GetMapping("/{pokeCode}")
-    public Result getByCode(@PathVariable String pokeCode) {
-        PokemonBaseInfo pokemon = baseInfoService.getByCode(pokeCode);
-        int code = pokemon != null ? Code.GET_OK.getCode() : Code.GET_ERR.getCode();
-        String msg = pokemon != null ? "查询成功" : "数据查询失败， 请重试！";
-        return new Result(code, pokemon, msg);
     }
 
     @GetMapping("/conditions")
@@ -78,9 +83,27 @@ public class MyPokeController {
         return new Result(flag ? Code.UPDATE_OK.getCode() : Code.UPDATE_ERR.getCode(), flag);
     }
 
+    /**
+     * 删除宝可梦基本信息
+     * @param pokeCode
+     * @return
+     */
     @DeleteMapping("/{pokeCode}")
     public Result deleteByCode(@PathVariable String pokeCode) {
         boolean flag = baseInfoService.deleteByCode(pokeCode);
         return new Result(flag ? Code.DELETE_OK.getCode() : Code.DELETE_ERR.getCode(), flag);
+    }
+
+    /**
+     * 批量删除宝可梦基本信息
+     * @param codeList
+     * @return
+     */
+    @DeleteMapping("/deleteByCodes")
+    public Result deleteByCodes(@RequestBody List<String> codeList) {
+        int numberToDelete = codeList.size();
+        int numberDeleted = baseInfoService.deleteByCodeList(codeList);
+        String result = String.format("成功删除了 %s (%s) 条数据", numberDeleted, numberToDelete);
+        return new Result(Code.DELETE_OK.getCode(), result);
     }
 }

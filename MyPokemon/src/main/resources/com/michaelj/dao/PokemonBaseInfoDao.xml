@@ -118,4 +118,23 @@
         </set>
         where poke_base_code = #{pokeBaseCode}
     </update>
+
+    <update id="deleteByCode">
+        update PokeBaseInfo
+        <set>
+            deleted = 1
+        </set>
+        where poke_base_code = #{code}
+    </update>
+
+    <update id="deleteByCodeList" parameterType="string">
+        update PokeBaseInfo
+        <set>
+            deleted = 1
+        </set>
+        where poke_base_code in
+        <foreach collection="list" item="code" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+    </update>
 </mapper>

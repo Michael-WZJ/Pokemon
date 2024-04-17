@@ -80,11 +80,25 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
         return flag > 0;
     }
 
+    /**
+     * 删除宝可梦基本信息
+     * @param code
+     * @return
+     */
     @Override
     public boolean deleteByCode(String code) {
         int flag = baseInfoDao.deleteByCode(code);
         return flag > 0;
     }
 
-
+    /**
+     * 批量删除宝可梦基本信息
+     *
+     * @param codeList
+     * @return
+     */
+    @Override
+    public int deleteByCodeList(List<String> codeList) {
+        return baseInfoDao.deleteByCodeList(codeList);
+    }
 }

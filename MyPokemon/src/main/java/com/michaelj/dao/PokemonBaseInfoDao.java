@@ -41,6 +41,17 @@ public interface PokemonBaseInfoDao {
 
     int update(PokemonBaseInfo pokemon);
 
-    @Delete("delete from PokeBaseInfo where poke_base_code = #{code}")
+    /**
+     * 删除宝可梦基本信息
+     * @param code 
+     * @return
+     */
     int deleteByCode(String code);
+
+    /**
+     * 批量删除宝可梦基本信息
+     * @param codeList
+     * @return
+     */
+    int deleteByCodeList(@Param("list") List<String> codeList);
 }
