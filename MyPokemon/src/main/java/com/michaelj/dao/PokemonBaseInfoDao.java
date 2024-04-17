@@ -23,6 +23,7 @@ public interface PokemonBaseInfoDao {
      */
     long selectPageListCount(PokeBaseInfoQuery query);
 
+    PokemonBaseInfo selectByName(String name);
 
     @Select("select * from PokeBaseInfo")
     List<PokemonBaseInfo> getAll();

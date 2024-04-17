@@ -3,11 +3,13 @@ package com.michaelj.controller;
 import com.michaelj.domain.Code;
 import com.michaelj.domain.base.Page;
 import com.michaelj.domain.dto.PokemonBaseInfoDTO;
+import com.michaelj.domain.dto.ValidateBaseInfo;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.base.Result;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
 import com.michaelj.service.PokemonBaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,7 +81,7 @@ public class MyPokeController {
     }
 
     @PutMapping
-    public Result update(@RequestBody PokemonBaseInfoDTO pokemon) {
+    public Result update(@Validated({ValidateBaseInfo.update.class}) @RequestBody PokemonBaseInfoDTO pokemon) {
         boolean flag = baseInfoService.update(pokemon);
         return new Result(flag ? Code.UPDATE_OK.getCode() : Code.UPDATE_ERR.getCode(), flag);
     }

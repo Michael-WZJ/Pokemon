@@ -1,8 +1,5 @@
 package com.michaelj.domain.dto;
 
-import javax.validation.Valid;
-import javax.validation.constraints.*;
-
 import lombok.Data;
 
 @Data

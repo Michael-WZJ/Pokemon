@@ -70,6 +70,16 @@
         </where>
     </select>
 
+    <select id="selectByName" parameterType="String" resultMap="PokeBaseInfoResult">
+        select
+        <include refid="BaseColumnMap"/>
+        from PokeBaseInfo t0
+        <where>
+            deleted = 0
+            and poke_base_name = #{name}
+        </where>
+    </select>
+
     <select id="getByCondition" resultMap="PokeBaseInfoResult">
         <!-- Sqlite不支持concat() -->
         select <include refid="BaseColumnMap"/>

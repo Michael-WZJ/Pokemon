@@ -1,5 +1,6 @@
 package com.michaelj.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.michaelj.dao.PokemonBaseInfoDao;
 import com.michaelj.domain.Code;
 import com.michaelj.domain.base.Page;
@@ -7,6 +8,7 @@ import com.michaelj.domain.converter.PokemonBaseInfoConverter;
 import com.michaelj.domain.dto.PokemonBaseInfoDTO;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
+import com.michaelj.infrastructure.constant.PokeExceptionEnum;
 import com.michaelj.infrastructure.exception.BusinessException;
 import com.michaelj.infrastructure.utils.PageExecutor;
 import com.michaelj.service.PokemonBaseInfoService;
@@ -86,6 +88,7 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
 
     @Override
     public boolean update(PokemonBaseInfoDTO pokemon) {
+        verifyUpdateBaseInfo(pokemon);
         int flag = baseInfoDao.update(baseInfoConverter.toEntity(pokemon));
         return flag > 0;
     }
@@ -110,5 +113,36 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     @Override
     public int deleteByCodeList(List<String> codeList) {
         return baseInfoDao.deleteByCodeList(codeList);
+    }
+
+    public void verifyUpdateBaseInfo(PokemonBaseInfoDTO baseInfoDTO) {
+        generalVerify(baseInfoDTO);
+        // code不应被修改
+        String code = baseInfoDTO.getPokeBaseCode();
+        Long id = baseInfoDTO.getPokeBaseId();
+        String newName = baseInfoDTO.getPokeBaseName();
+
+        // 判断参数是否齐全 -- 注解
+
+        // 判断 该编号是否存在 或者 编号与id是否能对应上
+        PokemonBaseInfo poke = baseInfoDao.getByCode(code);
+        if (ObjectUtil.isEmpty(poke) || !id.equals(poke.getPokeBaseId())) {
+            throw new BusinessException(PokeExceptionEnum.CODE_REPEAT);
+        }
+        // 判断名称是否重复
+        poke = baseInfoDao.selectByName(newName);
+        if (!ObjectUtil.isEmpty(poke) && !code.equals(poke.getPokeBaseCode())) {
+            throw new BusinessException(PokeExceptionEnum.NAME_REPEAT_FAIL);
+        }
+    }
+
+    public void verifyAddBaseInfo(PokemonBaseInfoDTO baseInfoDTO) {
+        generalVerify(baseInfoDTO);
+
+        // todo 判断编号是否重复
+    }
+
+    public void generalVerify(PokemonBaseInfoDTO baseInfoDTO) {
+
     }
 }
