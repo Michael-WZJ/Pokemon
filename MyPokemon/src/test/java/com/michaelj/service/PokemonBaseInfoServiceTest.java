@@ -1,5 +1,6 @@
 package com.michaelj.service;
 
+import com.michaelj.domain.dto.PokemonBaseInfoDTO;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class PokemonBaseInfoServiceTest {
     @Test
     public void testGetByCode() {
         assertTrue(baseInfoService.save(createTestPokemon("testGet")));
-        PokemonBaseInfo pokemon = baseInfoService.getByCode("testGet");
+        PokemonBaseInfoDTO pokemon = baseInfoService.getByCode("testGet");
         assertEquals(pokemon.getPokeBaseName(), "test");
         assertEquals(pokemon.getNameJpn(), "test");
         assertEquals(pokemon.getNameEng(), "test");
@@ -50,7 +51,7 @@ public class PokemonBaseInfoServiceTest {
     @Test
     public void testUpdate() {
         assertTrue(baseInfoService.save(createTestPokemon("testUpdate")));
-        PokemonBaseInfo pokemon = baseInfoService.getByCode("testUpdate");
+        PokemonBaseInfoDTO pokemon = baseInfoService.getByCode("testUpdate");
         assertEquals(pokemon.getPokeBaseName(), "test");
 
         pokemon.setPokeBaseName("testUpdate");

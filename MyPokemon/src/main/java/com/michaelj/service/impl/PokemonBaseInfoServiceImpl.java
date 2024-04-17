@@ -3,6 +3,8 @@ package com.michaelj.service.impl;
 import com.michaelj.dao.PokemonBaseInfoDao;
 import com.michaelj.domain.Code;
 import com.michaelj.domain.base.Page;
+import com.michaelj.domain.converter.PokemonBaseInfoConverter;
+import com.michaelj.domain.dto.PokemonBaseInfoDTO;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
 import com.michaelj.infrastructure.exception.BusinessException;
@@ -20,6 +22,9 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     @Autowired
     private PokemonBaseInfoDao baseInfoDao;
 
+    @Autowired
+    private PokemonBaseInfoConverter baseInfoConverter;
+
     /**
      * 条件查询宝可梦信息
      *
@@ -27,8 +32,8 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
      * @return
      */
     @Override
-    public Page<PokemonBaseInfo> selectPageList(PokeBaseInfoQuery query) {
-        return PageExecutor.pagination(query, new PageExecutor.PageDataLoader<PokemonBaseInfo>() {
+    public Page<PokemonBaseInfoDTO> selectPageList(PokeBaseInfoQuery query) {
+        return PageExecutor.pagination(query, new PageExecutor.ConvertPageDataLoader<PokemonBaseInfo, PokemonBaseInfoDTO>() {
             @Override
             public List<PokemonBaseInfo> load() {
                 return baseInfoDao.selectPageList(query);
@@ -37,6 +42,11 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
             @Override
             public long count() {
                 return baseInfoDao.selectPageListCount(query);
+            }
+
+            @Override
+            public PokemonBaseInfoDTO convert(PokemonBaseInfo entity) {
+                return baseInfoConverter.toDto(entity);
             }
         });
     }
@@ -47,8 +57,8 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     }
 
     @Override
-    public PokemonBaseInfo getByCode(String code) {
-        return baseInfoDao.getByCode(code);
+    public PokemonBaseInfoDTO getByCode(String code) {
+        return baseInfoConverter.toDto(baseInfoDao.getByCode(code));
     }
 
     @Override
@@ -75,8 +85,8 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     }
 
     @Override
-    public boolean update(PokemonBaseInfo pokemon) {
-        int flag = baseInfoDao.update(pokemon);
+    public boolean update(PokemonBaseInfoDTO pokemon) {
+        int flag = baseInfoDao.update(baseInfoConverter.toEntity(pokemon));
         return flag > 0;
     }
 

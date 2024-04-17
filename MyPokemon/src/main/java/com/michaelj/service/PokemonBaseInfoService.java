@@ -1,6 +1,7 @@
 package com.michaelj.service;
 
 import com.michaelj.domain.base.Page;
+import com.michaelj.domain.dto.PokemonBaseInfoDTO;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ public interface PokemonBaseInfoService {
      * @param query
      * @return
      */
-    Page<PokemonBaseInfo> selectPageList(PokeBaseInfoQuery query);
+    Page<PokemonBaseInfoDTO> selectPageList(PokeBaseInfoQuery query);
 
     /**
      * 查找全部宝可梦基础信息
@@ -28,7 +29,7 @@ public interface PokemonBaseInfoService {
      * @param code
      * @return
      */
-    PokemonBaseInfo getByCode(String code);
+    PokemonBaseInfoDTO getByCode(String code);
 
     /**
      * 条件查询
@@ -57,7 +58,7 @@ public interface PokemonBaseInfoService {
      * @param pokemon
      * @return
      */
-    boolean update(PokemonBaseInfo pokemon);
+    boolean update(PokemonBaseInfoDTO pokemon);
 
     /**
      * 按code删除

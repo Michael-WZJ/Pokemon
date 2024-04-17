@@ -2,6 +2,7 @@ package com.michaelj.controller;
 
 import com.michaelj.domain.Code;
 import com.michaelj.domain.base.Page;
+import com.michaelj.domain.dto.PokemonBaseInfoDTO;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.base.Result;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
@@ -24,7 +25,7 @@ public class MyPokeController {
      */
     @PostMapping("/pageList")
     public Result pageList(@RequestBody PokeBaseInfoQuery pokeBaseInfoQuery) {
-        Page<PokemonBaseInfo> pokemonList = baseInfoService.selectPageList(pokeBaseInfoQuery);
+        Page<PokemonBaseInfoDTO> pokemonList = baseInfoService.selectPageList(pokeBaseInfoQuery);
         return new Result(Code.GET_OK.getCode(), pokemonList);
     }
 
@@ -35,7 +36,7 @@ public class MyPokeController {
      */
     @GetMapping("/{pokeCode}")
     public Result getByCode(@PathVariable String pokeCode) {
-        PokemonBaseInfo pokemon = baseInfoService.getByCode(pokeCode);
+        PokemonBaseInfoDTO pokemon = baseInfoService.getByCode(pokeCode);
         int code = pokemon != null ? Code.GET_OK.getCode() : Code.GET_ERR.getCode();
         String msg = pokemon != null ? "查询成功" : "数据查询失败， 请重试！";
         return new Result(code, pokemon, msg);
@@ -78,7 +79,7 @@ public class MyPokeController {
     }
 
     @PutMapping
-    public Result update(@RequestBody PokemonBaseInfo pokemon) {
+    public Result update(@RequestBody PokemonBaseInfoDTO pokemon) {
         boolean flag = baseInfoService.update(pokemon);
         return new Result(flag ? Code.UPDATE_OK.getCode() : Code.UPDATE_ERR.getCode(), flag);
     }
