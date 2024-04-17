@@ -1,6 +1,7 @@
 package com.michaelj.infrastructure.exception;
 
 import com.michaelj.domain.Code;
+import com.michaelj.infrastructure.constant.BaseExceptionEnum;
 
 import java.io.Serial;
 
@@ -17,6 +18,11 @@ public class BusinessException extends RuntimeException {
     public BusinessException(Code code, String message, Throwable cause) {
         super(message, cause);
         this.code = code;
+    }
+
+    public BusinessException(BaseExceptionEnum except) {
+        super(except.getMessage());
+        this.code = except.getCode();
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
