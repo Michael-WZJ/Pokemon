@@ -74,9 +74,13 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     }
 
     @Override
-    public boolean save(PokemonBaseInfo pokemon) {
+    public boolean save(PokemonBaseInfoDTO pokemon) {
         try {
-            int flag = baseInfoDao.save(pokemon);
+            verifyAddBaseInfo(pokemon);
+            int flag = baseInfoDao.save(baseInfoConverter.toEntity(pokemon));
+            // 获取插入数据后的自增ID
+//            Long id = pokemon.getPokeBaseId(); // sqlite获取不到，可能要加方言？
+//            System.out.println("自增ID" + id);
             return flag > 0;
         } catch (DataAccessException e) {
             //TODO 如何处理SQL异常
@@ -86,6 +90,11 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
         }
     }
 
+    /**
+     * 修改宝可梦基本信息
+     * @param pokemon
+     * @return
+     */
     @Override
     public boolean update(PokemonBaseInfoDTO pokemon) {
         verifyUpdateBaseInfo(pokemon);
@@ -119,15 +128,15 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
         generalVerify(baseInfoDTO);
         // code不应被修改
         String code = baseInfoDTO.getPokeBaseCode();
-        Long id = baseInfoDTO.getPokeBaseId();
         String newName = baseInfoDTO.getPokeBaseName();
+        Long id = baseInfoDTO.getPokeBaseId();
 
         // 判断参数是否齐全 -- 注解
 
         // 判断 该编号是否存在 或者 编号与id是否能对应上
         PokemonBaseInfo poke = baseInfoDao.getByCode(code);
         if (ObjectUtil.isEmpty(poke) || !id.equals(poke.getPokeBaseId())) {
-            throw new BusinessException(PokeExceptionEnum.CODE_REPEAT);
+            throw new BusinessException(PokeExceptionEnum.CODE_REPEAT_FAIL);
         }
         // 判断名称是否重复
         poke = baseInfoDao.selectByName(newName);
@@ -138,8 +147,19 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
 
     public void verifyAddBaseInfo(PokemonBaseInfoDTO baseInfoDTO) {
         generalVerify(baseInfoDTO);
+        String code = baseInfoDTO.getPokeBaseCode();
+        String name = baseInfoDTO.getPokeBaseName();
 
-        // todo 判断编号是否重复
+        // 判断参数是否齐全 -- 注解
+
+        // 判断编号是否重复
+        if (!ObjectUtil.isEmpty(baseInfoDao.getByCode(code))) {
+            throw new BusinessException(PokeExceptionEnum.CODE_REPEAT_FAIL);
+        }
+        // 判断名称是否重复
+        if (!ObjectUtil.isEmpty(baseInfoDao.selectByName(name))) {
+            throw new BusinessException(PokeExceptionEnum.NAME_REPEAT_FAIL);
+        }
     }
 
     public void generalVerify(PokemonBaseInfoDTO baseInfoDTO) {

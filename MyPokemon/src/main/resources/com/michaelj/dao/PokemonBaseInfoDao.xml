@@ -80,6 +80,14 @@
         </where>
     </select>
 
+    <insert id="save" useGeneratedKeys="true" keyProperty="pokeBaseId">
+        insert into
+        PokeBaseInfo
+        (poke_base_code, poke_base_name, gen, prop1, prop2, name_jpn, name_eng, poke_base_pic)
+        values
+        (#{pokeBaseCode}, #{pokeBaseName}, #{gen}, #{prop1}, #{prop2}, #{nameJpn}, #{nameEng}, #{pokeBasePic})
+    </insert>
+
     <select id="getByCondition" resultMap="PokeBaseInfoResult">
         <!-- Sqlite不支持concat() -->
         select <include refid="BaseColumnMap"/>

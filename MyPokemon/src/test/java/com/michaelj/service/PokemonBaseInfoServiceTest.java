@@ -1,5 +1,6 @@
 package com.michaelj.service;
 
+import com.michaelj.domain.converter.PokemonBaseInfoConverter;
 import com.michaelj.domain.dto.PokemonBaseInfoDTO;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PokemonBaseInfoServiceTest {
     @Autowired
     private PokemonBaseInfoService baseInfoService;
+
+    @Autowired
+    private PokemonBaseInfoConverter baseInfoConverter;
 
     // 创建一个测试宝可梦
     private PokemonBaseInfo createTestPokemon(String code) {
@@ -34,7 +38,7 @@ public class PokemonBaseInfoServiceTest {
 
     @Test
     public void testGetByCode() {
-        assertTrue(baseInfoService.save(createTestPokemon("testGet")));
+        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon("testGet"))));
         PokemonBaseInfoDTO pokemon = baseInfoService.getByCode("testGet");
         assertEquals(pokemon.getPokeBaseName(), "test");
         assertEquals(pokemon.getNameJpn(), "test");
@@ -44,13 +48,13 @@ public class PokemonBaseInfoServiceTest {
 
     @Test
     public void testSaveAndDeleteByCode() {
-        assertTrue(baseInfoService.save(createTestPokemon("testSave")));
+        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon("testSave"))));
         assertTrue(baseInfoService.deleteByCode("testSave"));
     }
 
     @Test
     public void testUpdate() {
-        assertTrue(baseInfoService.save(createTestPokemon("testUpdate")));
+        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon("testUpdate"))));
         PokemonBaseInfoDTO pokemon = baseInfoService.getByCode("testUpdate");
         assertEquals(pokemon.getPokeBaseName(), "test");
 

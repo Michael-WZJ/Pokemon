@@ -51,7 +51,7 @@ public interface PokemonBaseInfoService {
      * @param pokemon
      * @return
      */
-    boolean save(PokemonBaseInfo pokemon);
+    boolean save(PokemonBaseInfoDTO pokemon);
 
     /**
      * 修改

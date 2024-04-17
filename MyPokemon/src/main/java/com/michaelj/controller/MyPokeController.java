@@ -75,11 +75,16 @@ public class MyPokeController {
     }
 
     @PostMapping
-    public Result save(@RequestBody PokemonBaseInfo pokemon) {
+    public Result save(@Validated({ValidateBaseInfo.add.class}) @RequestBody PokemonBaseInfoDTO pokemon) {
         boolean flag = baseInfoService.save(pokemon);
         return new Result(flag ? Code.SAVE_OK.getCode() : Code.SAVE_ERR.getCode(), flag);
     }
 
+    /**
+     * 修改宝可梦基本信息
+     * @param pokemon
+     * @return
+     */
     @PutMapping
     public Result update(@Validated({ValidateBaseInfo.update.class}) @RequestBody PokemonBaseInfoDTO pokemon) {
         boolean flag = baseInfoService.update(pokemon);

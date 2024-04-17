@@ -1,9 +1,13 @@
 package com.michaelj.domain.entity;
 
+//import jakarta.persistence.*;
+
 public class PokemonBaseInfo {
     /**
      * Id
      */
+//    @Id
+//    @GeneratedValue(generator = "JDBC")
     private Long pokeBaseId;
 
     /**
