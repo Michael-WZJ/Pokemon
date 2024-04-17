@@ -1,0 +1,195 @@
+<template>
+  <div>
+    <div class="view-body-card">
+      <el-card shadow="always">
+        <div slot="header" class="view-body-title">
+            <div class="title-text body-title">基本信息</div>
+            <el-button class="title-button" size="small" @click.stop="cancel">返回</el-button>
+        </div>
+        <div class="view-body-base-info">
+          <el-descriptions :column="3" direction="vertical" border :labelStyle="detailLabelStyle" :contentStyle="detailContentStyle">
+            <el-descriptions-item label="编号">
+              {{ form.pokeBaseCode }}
+            </el-descriptions-item>
+
+            <el-descriptions-item label="名称">
+              {{ form.pokeBaseName }}
+            </el-descriptions-item>
+
+            <el-descriptions-item label="日文">
+              {{ form.nameJpn }}
+            </el-descriptions-item>
+
+            <el-descriptions-item label="世代">
+              {{ form.gen }}
+            </el-descriptions-item>
+
+            <el-descriptions-item label="属性">
+              {{ form.prop1 + '、' + form.prop2 }}
+            </el-descriptions-item>
+
+            <el-descriptions-item label="英文">
+              {{ form.nameEng }}
+            </el-descriptions-item>
+
+            <el-descriptions-item label="图片">
+              <el-image
+                  v-if="!isEmpty(picPath)"
+                  :src="context(`${picPath}`)"
+                  :preview-src-list="[context(`${picPath}`)]"
+                  class="showImage"
+                  fit="cover"
+                  @mouseover="mouseOverStyle(0)"
+                  @mouseout="mouseOutStyle(0)"
+              />
+              <span v-else>无图片 {{ form.pokeBasePic }}</span>
+            </el-descriptions-item>
+          </el-descriptions>
+        </div>
+      </el-card>
+    </div>
+  </div>
+</template>
+
+<script>
+import { getBaseInfoDetail } from "@/api/pokeBaseInfoApi";
+import { BASE_CONSTANT } from "@/views/baseConstants";
+import {cloneDeep, isEmpty} from "lodash";
+
+const PATH = "PokemonPics"
+// 用于构造获取图片 目录的上下文环境【require不能用纯动态地址】
+const context = require.context('D://PokemonPics', true, /.(png|jpg)$/);
+
+export default {
+  name: 'BaseInfoDetail',
+  data() {
+    return {
+      form: {
+        pokeBaseId: null,
+        pokeBaseCode: "",
+        pokeBaseName: "",
+        gen: "",
+        prop1: "",
+        prop2: "",
+        nameJpn: "",
+        nameEng: "",
+        pokeBasePic: ""
+      },
+      //详情中描述列表的样式
+      detailLabelStyle: {},
+      detailContentStyle: {}
+    };
+  },
+  mounted() {
+    this.detailLabelStyle = cloneDeep(BASE_CONSTANT.DETAIL_LABEL_STYLE);
+    this.detailContentStyle = cloneDeep(BASE_CONSTANT.DETAIL_CONTENT_STYLE);
+  },
+  computed: {
+    // 宝可梦编号
+    formId() {
+      return this.$route?.query?.id;
+    },
+    picPath() {
+      if (!isEmpty(this.form.pokeBasePic)) {
+        // 构造相对路径【基于require.context上下文】
+        let path = '.' + this.form.pokeBasePic;
+        console.log(path);
+        return path;
+      } else {
+        return "";
+      }
+    }
+  },
+  watch: {
+    formId : {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.getBaseInfoDetail(val);
+        }
+      }
+    }
+  },
+  methods: {
+    context,
+    isEmpty,
+    async getBaseInfoDetail(code) {
+      // console.log(code);
+      getBaseInfoDetail(code)
+          .then(res => {
+            // console.log(res);
+            if (res.data.code === 10041) {
+              console.log(res.data);
+              Object.assign(this.form, res?.data?.data || {});
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err, "接口请求失败");
+          });
+    },
+    cancel() {
+      this.$router.go(-1);
+    },
+    //鼠标移入图片样式
+    mouseOverStyle(index) {
+      // const res = document.getElementsByClassName("showImage");
+      // // console.log(res);
+      // Array.from(res)[index].style.transform = "scale(5)";
+    },
+    //鼠标移出图片样式
+    mouseOutStyle(index) {
+      // const res = document.getElementsByClassName("showImage");
+      // Array.from(res)[index].style.transform = "scale(1)";
+    }
+  }
+}
+</script>
+
+<style scoped>
+.view-body-card {
+  width: 50%;
+  margin: auto;
+  padding: 32px 0 0 0;
+
+  .view-body-title:before,
+  .view-body-title:after {
+    display: table;
+    content: "";
+  }
+  .view-body-title:after {
+    clear: both
+  }
+
+  .body-title {
+    display: inline;
+  }
+}
+
+.title-text {
+  height: 24px;
+  /* margin-left: 8px; */
+
+  /* PF/Text/Medium/16 */
+  font-family: PingFang SC;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 24px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0em;
+
+  /* 文字色/85-标题 */
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.title-button {
+  float: right;
+}
+</style>

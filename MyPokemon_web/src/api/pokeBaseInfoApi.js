@@ -16,10 +16,11 @@ export function getBaseInfoList(data) {
   });
 }
 
-// 查询所有标签
-export function getAllBaseInfo() {
+// 根据编号查询
+export function getBaseInfoDetail(code) {
   return request({
-    url: `${PREFIX}`,
-    method: "GET"
+    url: `${PREFIX}/${code}`,
+    method: "GET",
+    loading: true
   });
 }

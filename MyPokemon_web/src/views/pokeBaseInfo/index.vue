@@ -84,6 +84,10 @@ export default {
     /** 会话相关 **/
     // 显示 详情 页
     handleShowView(row) {
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
+        query: { id: row?.pokeBaseCode }
+      });
       console.log("详情", row);
     },
     // 显示 编辑 页
