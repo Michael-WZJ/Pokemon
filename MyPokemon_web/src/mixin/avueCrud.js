@@ -128,13 +128,13 @@ export default {
       this.api
         .listApi(this.formatFilter())
         .then(res => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res.data.code === 10041) {
             //dataWrapper - 数据包装器
             const data = this.dataWrapper ? this.dataWrapper(res.data.data) : res.data.data;
             // this.dataList = this.handleListByDict(data.data || []); wzj注解
             this.dataList = data.data || [];
-            console.log("data", data);
+            // console.log("data", data);
             this.$set(this.page, "total", parseInt(data?.total));
             this.$set(this.page, "currentPage", data?.pageNo || 1);
             this.loading = false;
