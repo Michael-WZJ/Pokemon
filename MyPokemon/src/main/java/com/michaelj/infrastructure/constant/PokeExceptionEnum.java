@@ -3,7 +3,7 @@ package com.michaelj.infrastructure.constant;
 import com.michaelj.domain.Code;
 
 public enum PokeExceptionEnum implements BaseExceptionEnum{
-    CODE_REPEAT(Code.PROJECT_VALIDATE_ERR, "宝可梦编号重复"),
+    CODE_REPEAT_FAIL(Code.PROJECT_VALIDATE_ERR, "宝可梦编号重复"),
     NAME_REPEAT_FAIL(Code.PROJECT_VALIDATE_ERR, "宝可梦名称重复"),
     ;
 
