@@ -23,4 +23,19 @@ public class PropertyDTO {
      * 排序
      */
     private Long propSort;
+
+    /**
+     * css基本色
+     */
+    private String cssColorBase;
+
+    /**
+     * css背景色
+     */
+    private String cssColorBackground;
+
+    /**
+     * css边线色
+     */
+    private String cssColorBorder;
 }

@@ -7,7 +7,7 @@
     </resultMap>
 
     <sql id="BaseColumnMap">
-        t0.prop_id, t0.prop_code, t0.prop_name, t0.prop_sort
+        t0.prop_id, t0.prop_code, t0.prop_name, t0.prop_sort, t0.css_color_base, t0.css_color_background, t0.css_color_border
     </sql>
 
     <select id="getAllProp" resultMap="PropertyResult">
