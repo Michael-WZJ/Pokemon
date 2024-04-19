@@ -24,7 +24,7 @@
     >
       <!-- 左上操作栏 -->
       <template #menuLeft="{ size }">
-        <el-button type="primary" :size="size" @click="handleShowAdd"> 新增 </el-button>
+        <el-button type="primary" :size="size" @click.stop="handleShowAdd"> 新增 </el-button>
         <el-button :disabled="selectCount === 0" :size="size" @click="handleDelList">
           批量删除
         </el-button>
@@ -48,6 +48,7 @@
 import { crudOptions } from "@/views/pokeBaseInfo/crudOptions";
 import MixinCrud from "@/mixin/avueCrud";
 import { getBaseInfoList, delBaseInfoByCode, delBaseInfoByCodes ,getAllBaseInfo } from "@/api/pokeBaseInfoApi"
+import {BASE_CONSTANT} from "@/views/baseConstants";
 
 export default {
   name: "PokeBaseInfo",
@@ -93,9 +94,22 @@ export default {
       console.log("详情", row);
     },
     // 显示 编辑 页
-    handleShowEdit(row) {},
+    handleShowEdit(row, type = BASE_CONSTANT.EDIT) {
+      let code = row?.pokeBaseCode;
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoAdd",
+        query: { id: code, type: type}
+      });
+    },
     // 显示 新增 页
     handleShowAdd() {
+      this.$router.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoAdd",
+        query: {
+          type: BASE_CONSTANT.ADD,
+          reset: BASE_CONSTANT.TRUE // 是否重置表单
+        }
+      });
     },
 
     /** 增删改 **/

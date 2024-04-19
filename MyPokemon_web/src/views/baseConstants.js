@@ -1,4 +1,13 @@
 export const BASE_CONSTANT = {
+  EDIT: "edit",
+  EDIT_TXT: "编辑",
+  EDIT_SUCCESS_TXT: "编辑成功",
+  ADD: "add",
+  ADD_TXT: "新增",
+  ADD_SUCCESS_TXT: "新增成功",
+
+  TRUE: "true",
+  FALSE: "false",
 
   /** 样式 **/
   DETAIL_LABEL_STYLE: {
