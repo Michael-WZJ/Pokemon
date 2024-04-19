@@ -64,7 +64,7 @@
               </el-form-item>
 
               <el-form-item label="图片" prop="pokeBasePic" class="span3">
-                <el-input v-model="dialogForm.pokeBasePic" :disabled="true"/>
+                <el-input v-model="dialogForm.pokeBasePic"/>
               </el-form-item>
             </div>
           </el-form>

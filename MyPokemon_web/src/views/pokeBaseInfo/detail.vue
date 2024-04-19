@@ -228,4 +228,9 @@ export default {
 .title-button {
   float: right;
 }
+
+.showImage {
+  //width: 60px;
+  height: 200px;
+}
 </style>
