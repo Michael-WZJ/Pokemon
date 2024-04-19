@@ -25,6 +25,24 @@ export function getBaseInfoDetail(code) {
   });
 }
 
+// 新增宝可梦信息
+export function addBaseInfo(data) {
+  return request({
+    url: `${PREFIX}`,
+    method: "POST",
+    data: data
+  });
+}
+
+// 修改宝可梦信息
+export function updateBaseInfo(data) {
+  return request({
+    url: `${PREFIX}`,
+    method: "PUT",
+    data: data
+  });
+}
+
 // 根据code删除
 export function delBaseInfoByCode(code) {
   return request({
