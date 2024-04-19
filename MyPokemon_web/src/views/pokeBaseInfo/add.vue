@@ -87,10 +87,10 @@ import {BASE_CONSTANT} from "@/views/baseConstants";
 import { getBaseInfoDetail, addBaseInfo, updateBaseInfo } from "@/api/pokeBaseInfoApi";
 import { getAllGen } from "@/api/genApi";
 import {cloneDeep, isEmpty} from "lodash";
-import cssProp from "@/mixin/cssProp";
+import CssProp from "@/mixin/cssProp";
 
 export default {
-  mixins: [cssProp],
+  mixins: [CssProp],
   name: 'BaseInfoAdd',
   components: { ChooseProps },
   data() {

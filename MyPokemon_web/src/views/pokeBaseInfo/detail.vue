@@ -25,7 +25,29 @@
             </el-descriptions-item>
 
             <el-descriptions-item label="属性">
-              {{ form.prop1 + '、' + form.prop2 }}
+              <div class="tag-show">
+                <el-tag
+                  v-if="!isEmpty(form.prop1)"
+                  :style="{
+                    'color':getColorBase(form.prop1),
+                    'background-color':getColorBackground(form.prop1),
+                    'border-color':getColorBorder(form.prop1)
+                  }"
+                >
+                  {{ form.prop1 }}
+                </el-tag>
+                <el-tag
+                  v-if="!isEmpty(form.prop2)"
+                  :style="{
+                    'color':getColorBase(form.prop2),
+                    'background-color':getColorBackground(form.prop2),
+                    'border-color':getColorBorder(form.prop2)
+                  }"
+                >
+                  {{ form.prop2 }}
+                </el-tag>
+              </div>
+
             </el-descriptions-item>
 
             <el-descriptions-item label="英文">
@@ -55,12 +77,14 @@
 import { getBaseInfoDetail } from "@/api/pokeBaseInfoApi";
 import { BASE_CONSTANT } from "@/views/baseConstants";
 import {cloneDeep, isEmpty} from "lodash";
+import CssProp from "@/mixin/cssProp";
 
 const PATH = "PokemonPics"
 // 用于构造获取图片 目录的上下文环境【require不能用纯动态地址】
 const context = require.context('D://PokemonPics', true, /.(png|jpg)$/);
 
 export default {
+  mixins: [CssProp],
   name: 'BaseInfoDetail',
   data() {
     return {
@@ -168,6 +192,18 @@ export default {
 
   .body-title {
     display: inline;
+  }
+
+  .tag-show {
+    display: inline;
+    text-align: center;
+    span {
+      //color: #35c97f;
+      margin-right: 8px;
+      width: 50px;
+      //background-color: #eefff6;
+      border: 1px solid #b0f9be;
+    }
   }
 }
 

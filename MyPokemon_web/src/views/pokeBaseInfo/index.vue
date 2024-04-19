@@ -40,6 +40,32 @@
       <template #pokeBaseName="{ row }">
         <span class="click_link" @click="handleShowView(row)">{{ row.pokeBaseName }}</span>
       </template>
+
+      <!-- "属性"列 插槽 -->
+      <template #prop1="{ row }">
+        <div class="tag-show">
+          <el-tag
+            v-if="!isEmpty(row.prop1)"
+            :style="{
+              'color':getColorBase(row.prop1),
+              'background-color':getColorBackground(row.prop1),
+              'border-color':getColorBorder(row.prop1)
+            }"
+          >
+            {{ row.prop1 }}
+          </el-tag>
+          <el-tag
+            v-if="!isEmpty(row.prop2)"
+            :style="{
+              'color':getColorBase(row.prop2),
+              'background-color':getColorBackground(row.prop2),
+              'border-color':getColorBorder(row.prop2)
+            }"
+          >
+            {{ row.prop2 }}
+          </el-tag>
+        </div>
+      </template>
     </avue-crud>
   </div>
 </template>
@@ -49,10 +75,12 @@ import { crudOptions } from "@/views/pokeBaseInfo/crudOptions";
 import MixinCrud from "@/mixin/avueCrud";
 import { getBaseInfoList, delBaseInfoByCode, delBaseInfoByCodes ,getAllBaseInfo } from "@/api/pokeBaseInfoApi"
 import {BASE_CONSTANT} from "@/views/baseConstants";
+import CssProp from "@/mixin/cssProp";
+import {isEmpty} from "lodash";
 
 export default {
   name: "PokeBaseInfo",
-  mixins: [MixinCrud],
+  mixins: [MixinCrud, CssProp],
   data() {
     return {
       api: {
@@ -76,6 +104,7 @@ export default {
     }
   },
   methods: {
+    isEmpty,
     onLoad() {
       this.handleList();
     },
@@ -218,5 +247,18 @@ export default {
 .click_link {
   color: #2A7FFFFF;
   cursor: pointer;
+}
+
+.tag-show {
+  display: inline;
+  text-align: center;
+  span {
+    //height: 20px;
+    //color: #35c97f;
+    margin-right: 8px;
+    width: 48px;
+    //background-color: #eefff6;
+    border: 1px solid;
+  }
 }
 </style>

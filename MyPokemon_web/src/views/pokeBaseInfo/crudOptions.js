@@ -91,7 +91,7 @@ export const crudOptions = vm => {
         },
         formslot: false, // 开放插槽
         search: true,
-        overHidden: true,
+        overHidden: false,
         minWidth: 250,
         // addDisplay: false,
         // editDisabled: true,
@@ -111,13 +111,13 @@ export const crudOptions = vm => {
       {
         label: "属性2",
         prop: "prop2",
+        hide: true,
         type: "select",
         dicUrl: `${baseUrl}/web/prop`,
         props: {
           label: 'propName',
           value: 'propName'
         },
-        hide: true,
         formslot: false, // 开放插槽
         search: true,
         overHidden: true,
