@@ -4,7 +4,7 @@
       <el-card shadow="always">
         <div slot="header" class="view-body-title">
             <div class="title-text body-title">基本信息</div>
-            <el-button class="title-button" size="small" @click.stop="cancel">返回</el-button>
+            <el-button class="title-button" size="small" @click.stop="cancel">返 回</el-button>
         </div>
         <div class="view-body-base-info">
           <el-descriptions :column="3" direction="vertical" border :labelStyle="detailLabelStyle" :contentStyle="detailContentStyle">
@@ -151,7 +151,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .view-body-card {
   width: 50%;
   margin: auto;
