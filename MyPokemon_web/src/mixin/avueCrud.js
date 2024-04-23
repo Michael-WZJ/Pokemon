@@ -141,7 +141,7 @@ export default {
           } else {
             this.$message({
               showClose: true,
-              message: res.message,
+              message: res.data.msg,
               type: "error"
             });
           }

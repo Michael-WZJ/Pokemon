@@ -6,6 +6,7 @@
             <div class="title-text body-title">基本信息</div>
             <el-button class="title-button" size="small" @click.stop="cancel">返 回</el-button>
         </div>
+
         <div class="view-body-base-info">
           <el-descriptions :column="3" direction="vertical" border :labelStyle="detailLabelStyle" :contentStyle="detailContentStyle">
             <el-descriptions-item label="编号">
