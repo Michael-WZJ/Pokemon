@@ -121,17 +121,18 @@ export default {
       let ctrlFlag = event.ctrlKey;
 
       if (ctrlFlag) {
-        // 按下ctrl键，则在新页面打开
+        // 按下ctrl键，则在本页面打开
+        this.$router?.push({
+          name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
+          query: { id: row?.pokeBaseCode }
+        });
+      } else {
+        // 不按下ctrl键，则在新页面打开
         let routeData = this.$router?.resolve({
           name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
           query: { id: row?.pokeBaseCode }
         });
         window.open(routeData?.href, '_blank');
-      } else {
-        this.$router?.push({
-          name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
-          query: { id: row?.pokeBaseCode }
-        });
       }
 
       // console.log("详情", row);
