@@ -31,14 +31,14 @@
       </template>
       <!-- 右列操作栏 -->
       <template #menu="{ row, size }">
-        <el-button type="text" :size="size" @click="handleShowEdit(row)">编辑</el-button>
+        <el-button type="text" :size="size" @click="handleShowEdit(row, $event)">编辑</el-button>
         <el-button type="text" :size="size" @click="rowDel(row)">删除</el-button>
         <!--        <el-button type="text" :size="size" @click="handleShowView(row)">详情</el-button>-->
       </template>
 
       <!-- "名称"列 插槽 -->
       <template #pokeBaseName="{ row }">
-        <span class="click_link" @click="handleShowView(row)">{{ row.pokeBaseName }}</span>
+        <span class="click_link" @click="handleShowView(row, $event)">{{ row.pokeBaseName }}</span>
       </template>
 
       <!-- "属性"列 插槽 -->
@@ -115,20 +115,47 @@ export default {
 
     /** 会话相关 **/
     // 显示 详情 页
-    handleShowView(row) {
-      this.$router?.push({
-        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
-        query: { id: row?.pokeBaseCode }
-      });
-      console.log("详情", row);
+    handleShowView(row, event) {
+      // console.log("event", event);
+      // console.log("ctrl", event.ctrlKey);
+      let ctrlFlag = event.ctrlKey;
+
+      if (ctrlFlag) {
+        // 按下ctrl键，则在新页面打开
+        let routeData = this.$router?.resolve({
+          name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
+          query: { id: row?.pokeBaseCode }
+        });
+        window.open(routeData?.href, '_blank');
+      } else {
+        this.$router?.push({
+          name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
+          query: { id: row?.pokeBaseCode }
+        });
+      }
+
+      // console.log("详情", row);
     },
     // 显示 编辑 页
-    handleShowEdit(row, type = BASE_CONSTANT.EDIT) {
+    handleShowEdit(row, event, type = BASE_CONSTANT.EDIT) {
+      // console.log("event", event);
+      // console.log("ctrl", event.ctrlKey);
+      let ctrlFlag = event.ctrlKey;
       let code = row?.pokeBaseCode;
-      this.$router?.push({
-        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoAdd",
-        query: { id: code, type: type}
-      });
+
+      if (ctrlFlag) {
+        // 按下ctrl键，则在新页面打开
+        let routeData = this.$router?.resolve({
+          name: "MyPokemon-pokeBaseInfo-pokeBaseInfoAdd",
+          query: { id: code, type: type}
+        });
+        window.open(routeData?.href, '_blank');
+      } else {
+        this.$router?.push({
+          name: "MyPokemon-pokeBaseInfo-pokeBaseInfoAdd",
+          query: { id: code, type: type}
+        });
+      }
     },
     // 显示 新增 页
     handleShowAdd() {

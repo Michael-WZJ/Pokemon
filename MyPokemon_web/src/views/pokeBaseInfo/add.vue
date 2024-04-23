@@ -198,7 +198,11 @@ export default {
           });
     },
     cancel() {
-      this.$router.go(-1);
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoList"
+      });
+
+      // this.$router.go(-1);
     },
     // 重置数据
     resetFormData() {
@@ -232,14 +236,16 @@ export default {
 
     /** 增删改 **/
     // 处理 提交表单
-    submitForm() {
-      console.log("提交", this.dialogForm);
+    submitForm(event) {
+      // console.log("提交", this.dialogForm);
+      // console.log("ctrl", event.ctrlKey);
+      let ctrlFlag = event.ctrlKey;
 
       let submitForm;
       submitForm = cloneDeep(this.dialogForm);
 
       if (this.formType === BASE_CONSTANT.EDIT) {
-        this.rowUpdate(submitForm);
+        this.rowUpdate(submitForm, ctrlFlag);
       } else {
         this.rowSave(submitForm);
       }
@@ -284,7 +290,7 @@ export default {
           });
     },
     // 发送修改请求
-    async rowUpdate(submitForm) {
+    async rowUpdate(submitForm, ctrlFlag) {
       if (!this.api.updateApi) {
         this.$message({
           message: "请设置api.update属性!",
@@ -306,9 +312,22 @@ export default {
                 message: BASE_CONSTANT.EDIT_SUCCESS_TXT,
                 type: "success"
               });
-              setTimeout(() => {
-                this.$router.go(-1); // todo 是否改成切换路由
-              }, 0);
+
+              // console.log("ctrl", ctrlFlag);
+              if (ctrlFlag) {
+                // 按下ctrl键，则关闭页面
+                setTimeout(() => {
+                  window.close();
+                }, 500);
+              } else {
+                setTimeout(() => {
+                  // this.$router.go(-1); // 是否改成切换路由  是
+
+                  this.$router?.push({
+                    name: "MyPokemon-pokeBaseInfo-pokeBaseInfoList"
+                  });
+                }, 0);
+              }
             } else {
               this.$message({
                 showClose: true,
