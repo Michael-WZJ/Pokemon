@@ -34,6 +34,12 @@ export default [
             name: "MyPokemon-pokeBaseInfo-pokeBaseInfoAdd",
             meta: { title: "新增宝可梦" },
             component: () => import("@/views/pokeBaseInfo/add.vue")
+          },
+          {
+            path: "list",
+            name: "MyPokemon-pokeBaseInfo-pokeBaseInfoList",
+            meta: { title: "宝可梦列表" },
+            component: () => import("@/views/pokeBaseInfo/index.vue")
           }
         ]
       },
