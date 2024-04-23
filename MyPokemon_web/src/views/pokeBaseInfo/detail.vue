@@ -57,7 +57,7 @@
 
             <el-descriptions-item label="图片">
               <el-image
-                  v-if="!isEmpty(picPath)"
+                  v-if="pokePicFlag"
                   :src="context(`${picPath}`)"
                   :preview-src-list="[context(`${picPath}`)]"
                   class="showImage"
@@ -100,6 +100,7 @@ export default {
         nameEng: "",
         pokeBasePic: ""
       },
+      pokePicFlag: false,
       //详情中描述列表的样式
       detailLabelStyle: {},
       detailContentStyle: {}
@@ -118,7 +119,7 @@ export default {
       if (!isEmpty(this.form.pokeBasePic)) {
         // 构造相对路径【基于require.context上下文】
         let path = '.' + this.form.pokeBasePic;
-        console.log(path);
+        console.log("图片路径", path);
         return path;
       } else {
         return "";
@@ -133,6 +134,22 @@ export default {
           this.getBaseInfoDetail(val);
         }
       }
+    },
+    // 检测图片路径是否有效
+    "form.pokeBasePic": {
+      immediate: false,
+      handler(val) {
+        let flag = false;
+        try {
+          let pic = context(`${this.picPath}`);
+          flag = true;
+        } catch (err) {
+          // console.log("err", err);
+        } finally {
+          console.log("pic", flag);
+          this.pokePicFlag = flag;
+        }
+      }
     }
   },
   methods: {
@@ -144,7 +161,7 @@ export default {
           .then(res => {
             // console.log(res);
             if (res.data.code === 10041) {
-              console.log(res.data);
+              // console.log(res.data);
               Object.assign(this.form, res?.data?.data || {});
             } else {
               this.$message({
@@ -158,8 +175,14 @@ export default {
             console.log(err, "接口请求失败");
           });
     },
-    cancel() {
-      this.$router.go(-1);
+    cancel(event) {
+      // console.log("event2", event.ctrlKey);
+
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoList"
+      });
+
+      // this.$router.go(-1);
     },
     //鼠标移入图片样式
     mouseOverStyle(index) {
