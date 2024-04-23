@@ -12,4 +12,11 @@ public interface PropertyMapper {
      * @return
      */
     List<Property> getAllProp();
+
+    /**
+     * 批量更新 属性 css颜色
+     * @param propList
+     * @return
+     */
+    int batchUpdateProps(List<Property> propList);
 }

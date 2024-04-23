@@ -19,4 +19,53 @@
         </where>
         order by prop_sort ASC
     </select>
+    
+    <update id="batchUpdateProps1" parameterType="java.util.List">
+        <foreach collection="propList" item="prop" separator=";">
+            update Property
+            <set>
+                css_color_base = #{prop.cssColorBase},
+                css_color_background = #{prop.cssColorBackground},
+                css_color_border = #{prop.cssColorBorder}
+            </set>
+            <where>
+                deleted = 0
+                and prop_code = #{prop.propCode}
+                and prop_name = #{prop.propName}
+            </where>
+        </foreach>
+    </update>
+
+    <update id="batchUpdateProps" parameterType="java.util.List">
+            update Property
+            <set>
+                css_color_base =
+                case
+                    <foreach collection="list" item="prop" separator=" ">
+                        when prop_name = #{prop.propName} then #{prop.cssColorBase}
+                    </foreach>
+                end
+                ,
+                css_color_background =
+                case
+                    <foreach collection="list" item="prop" separator=" ">
+                        when prop_name = #{prop.propName} then #{prop.cssColorBackground}
+                    </foreach>
+                end
+                ,
+                css_color_border =
+                case
+                <foreach collection="list" item="prop" separator=" ">
+                    when prop_name = #{prop.propName} then #{prop.cssColorBorder}
+                </foreach>
+                end
+            </set>
+            <where>
+                deleted = 0
+                and prop_code in
+                <foreach collection="list" item="prop" separator="," open="(" close=")">
+                    #{prop.propCode}
+                </foreach>
+            </where>
+    </update>
 </mapper>
