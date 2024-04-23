@@ -11,4 +11,11 @@ public interface PropertyService {
      * @return
      */
     List<PropertyDTO> getAllProp();
+
+    /**
+     * 批量更新 属性 css颜色
+     * @param propList
+     * @return
+     */
+    int batchUpdateProps(List<PropertyDTO> propList);
 }

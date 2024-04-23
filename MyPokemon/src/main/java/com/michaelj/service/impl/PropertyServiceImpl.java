@@ -26,4 +26,26 @@ public class PropertyServiceImpl implements PropertyService {
     public List<PropertyDTO> getAllProp() {
         return propertyConverter.toDtoList(propertyMapper.getAllProp());
     }
+
+    /**
+     * 批量更新 属性 css颜色
+     *
+     * @param propList
+     * @return
+     */
+    @Override
+    public int batchUpdateProps(List<PropertyDTO> propList) {
+        handleLowerCaseList(propList);
+        return propertyMapper.batchUpdateProps(propertyConverter.toEntityList(propList));
+    }
+
+    public void handleLowerCase(PropertyDTO propDTO) {
+        propDTO.setCssColorBase(propDTO.getCssColorBase().toLowerCase());
+        propDTO.setCssColorBackground(propDTO.getCssColorBackground().toLowerCase());
+        propDTO.setCssColorBorder(propDTO.getCssColorBorder().toLowerCase());
+    }
+
+    public void handleLowerCaseList(List<PropertyDTO> propList) {
+        propList.forEach(this::handleLowerCase);
+    }
 }
