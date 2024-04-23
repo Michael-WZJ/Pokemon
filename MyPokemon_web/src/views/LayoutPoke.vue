@@ -3,6 +3,7 @@
     <div class="footer_wrap">
       <router-link to="/homepage">首页</router-link>
       <router-link to="/my">我的</router-link>
+      <router-link to="/setting">设置</router-link>
       <router-link to="/api">Api</router-link>
     </div>
     <div class="top">

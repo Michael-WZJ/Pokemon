@@ -42,6 +42,10 @@ export default [
         component: () => import("@/views/myPoke/mc/index.vue"),
       },
       {
+        path: 'setting',
+        component: () => import("@/views/setting/index.vue")
+      },
+      {
         path: 'api',
         component: () => import("@/views/api/index.vue")
       }
