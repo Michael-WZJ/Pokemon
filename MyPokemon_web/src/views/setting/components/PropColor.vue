@@ -25,9 +25,9 @@
           </div>
 
           <div class="grid-prop">
-            <el-input v-model="item.cssColorBase" :disabled="!item.edit" clearable></el-input>
-            <el-input v-model="item.cssColorBackground" :disabled="!item.edit" clearable></el-input>
-            <el-input v-model="item.cssColorBorder" :disabled="!item.edit" clearable></el-input>
+            <el-input v-model.trim="item.cssColorBase" :disabled="!item.edit" clearable></el-input>
+            <el-input v-model.trim="item.cssColorBackground" :disabled="!item.edit" clearable></el-input>
+            <el-input v-model.trim="item.cssColorBorder" :disabled="!item.edit" clearable></el-input>
           </div>
 
           <div class="prop-item-button" v-show="isEdit">

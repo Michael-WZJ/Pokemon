@@ -14,15 +14,15 @@
           <el-form :model="dialogForm" :rules="rules" ref="dialogForm" label-width="60px" :label-position="'top'" class="form-body">
             <div class="grid">
               <el-form-item label="编号" prop="pokeBaseCode">
-                <el-input v-model="dialogForm.pokeBaseCode" :disabled=isEdit maxlength="10" show-word-limit clearable/>
+                <el-input v-model.trim="dialogForm.pokeBaseCode" :disabled=isEdit maxlength="10" show-word-limit clearable/>
               </el-form-item>
 
               <el-form-item label="名称" prop="pokeBaseName">
-                <el-input v-model="dialogForm.pokeBaseName" maxlength="10" show-word-limit clearable/>
+                <el-input v-model.trim="dialogForm.pokeBaseName" maxlength="10" show-word-limit clearable/>
               </el-form-item>
 
               <el-form-item label="日文" prop="nameJpn">
-                <el-input v-model="dialogForm.nameJpn" maxlength="50" show-word-limit clearable/>
+                <el-input v-model.trim="dialogForm.nameJpn" maxlength="50" show-word-limit clearable/>
               </el-form-item>
 
               <el-form-item label="世代" prop="gen">
@@ -61,11 +61,11 @@
               </el-form-item>
 
               <el-form-item label="英文" prop="nameEng">
-                <el-input v-model="dialogForm.nameEng" maxlength="50" show-word-limit clearable/>
+                <el-input v-model.trim="dialogForm.nameEng" maxlength="50" show-word-limit clearable/>
               </el-form-item>
 
               <el-form-item label="图片" prop="pokeBasePic" class="span3">
-                <el-input v-model="dialogForm.pokeBasePic"/>
+                <el-input v-model.trim="dialogForm.pokeBasePic"/>
               </el-form-item>
             </div>
           </el-form>
