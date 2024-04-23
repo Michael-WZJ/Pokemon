@@ -9,6 +9,7 @@
             保 存
           </el-button>
         </div>
+
         <div class="add-body-form">
           <el-form :model="dialogForm" :rules="rules" ref="dialogForm" label-width="60px" :label-position="'top'" class="form-body">
             <div class="grid">
@@ -371,12 +372,12 @@ export default {
   margin: auto;
   padding: 32px 0 0 0;
 
-  .view-body-title:before,
-  .view-body-title:after {
+  .add-body-title:before,
+  .add-body-title:after {
     display: table;
     content: "";
   }
-  .view-body-title:after {
+  .add-body-title:after {
     clear: both
   }
 
