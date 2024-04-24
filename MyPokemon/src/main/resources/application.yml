@@ -1,13 +1,30 @@
+#TODO 配置数据源相关信息
+
 spring:
   profiles:
     active: ${profile.active}
+#      active: dev
+
+#TODO 开启MyBatis自动映射驼峰命名
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    # 往控制台输出MyBatis日志
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 在端口号后 添加 路径
+# server: servlet: context-path: /testpath
 
 ---
 # 生产
 server:
-  port: 80
+  port: 8080
 
 spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite::resource:Database/pokemon.db
+
   config:
     activate:
       on-profile: pro
@@ -15,9 +32,13 @@ spring:
 ---
 # 开发
 server:
-  port: 81
+  port: 8081
 
 spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite::resource:Database/pokemon.db
+
   config:
     activate:
       on-profile: dev
@@ -25,9 +46,17 @@ spring:
 ---
 # 测试
 server:
-  port: 82
+  port: 8082
+
+logging:
+  level:
+    root: warn
 
 spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite::resource:Database/census.db
+
   config:
     activate:
       on-profile: test

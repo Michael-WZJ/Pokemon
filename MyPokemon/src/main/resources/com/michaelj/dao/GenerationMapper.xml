@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.michaelj.dao.GenerationMapper">
+    <resultMap id="GenerationResult" type="com.michaelj.domain.entity.Generation">
+    </resultMap>
+
+    <sql id="BaseColumnMap">
+        t0.gen_id, t0.gen_code, t0.gen_name, t0.gen_sort, t0.gen_region
+    </sql>
+
+    <select id="getAllGen" resultMap="GenerationResult">
+        select
+        <include refid="BaseColumnMap"/>
+        from Generation t0
+        <where>
+            t0.deleted = 0
+        </where>
+        order by gen_sort ASC
+    </select>
+</mapper>

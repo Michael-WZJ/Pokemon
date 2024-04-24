@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.michaelj.dao.PokemonBaseInfoDao">
+
+    <resultMap id="PokeBaseInfoResult" type="com.michaelj.domain.entity.PokemonBaseInfo">
+    </resultMap>
+
+    <sql id="BaseColumnMap">
+        t0.poke_base_id, t0.poke_base_code, t0.poke_base_name, t0.gen, t0.prop1, t0.prop2,
+        t0.name_jpn, t0.name_eng, t0.poke_base_pic
+    </sql>
+
+    <select id="selectPageList" resultMap="PokeBaseInfoResult">
+        select
+        <include refid="BaseColumnMap"/>
+        from PokeBaseInfo t0
+        <where>
+            t0.deleted = 0
+            <if test="pokeBaseCode != null and pokeBaseCode != ''">
+                and poke_base_code = #{pokeBaseCode}
+            </if>
+            <if test="pokeBaseName != null and pokeBaseName != ''">
+                and poke_base_name like '%'||#{pokeBaseName}||'%'
+            </if>
+            <if test="gen != null and gen.size > 0">
+                and gen in
+                <foreach collection="gen" item="g" open="(" separator="," close=")">
+                    #{g}
+                </foreach>
+            </if>
+            <if test="prop1 != null and prop2 != null">
+                and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))
+            </if>
+            <if test="prop1 != null xor prop2 != null">
+                and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
+            </if>
+        </where>
+        order by poke_base_code ASC
+        <if test="start != null and pageSize != null">
+            limit #{start}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="selectPageListCount" resultType="long">
+        select
+        count(1)
+        from PokeBaseInfo t0
+        <where>
+            t0.deleted = 0
+            <if test="pokeBaseCode != null and pokeBaseCode != ''">
+                and poke_base_code = #{pokeBaseCode}
+            </if>
+            <if test="pokeBaseName != null and pokeBaseName != ''">
+                and poke_base_name like '%'||#{pokeBaseName}||'%'
+            </if>
+            <if test="gen != null and gen.size > 0">
+                and gen in
+                <foreach collection="gen" item="g" open="(" separator="," close=")">
+                    #{g}
+                </foreach>
+            </if>
+            <if test="prop1 != null and prop2 != null">
+                and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))
+            </if>
+            <if test="prop1 != null xor prop2 != null">
+                and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByName" parameterType="String" resultMap="PokeBaseInfoResult">
+        select
+        <include refid="BaseColumnMap"/>
+        from PokeBaseInfo t0
+        <where>
+            deleted = 0
+            and poke_base_name = #{name}
+        </where>
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="pokeBaseId">
+        insert into
+        PokeBaseInfo
+        (poke_base_code, poke_base_name, gen, prop1, prop2, name_jpn, name_eng, poke_base_pic)
+        values
+        (#{pokeBaseCode}, #{pokeBaseName}, #{gen}, #{prop1}, #{prop2}, #{nameJpn}, #{nameEng}, #{pokeBasePic})
+    </insert>
+
+    <select id="getByCondition" resultMap="PokeBaseInfoResult">
+        <!-- Sqlite不支持concat() -->
+        select <include refid="BaseColumnMap"/>
+        from PokeBaseInfo t0
+        <where>
+            t0.deleted = 0
+            <if test="pokeBaseName != null and pokeBaseName != ''">
+                and poke_base_name like '%'||#{pokeBaseName}||'%'
+            </if>
+            <if test="gen != null">
+                and gen = #{gen}
+            </if>
+            <if test="prop1 != null and prop2 != null">
+                and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))
+            </if>
+            <if test="prop1 != null xor prop2 != null">
+                and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
+            </if>
+        </where>
+    </select>
+
+    <update id="update">
+        update PokeBaseInfo
+        <set>
+            <if test="pokeBaseName != null">
+                poke_base_name = #{pokeBaseName},
+            </if>
+            <if test="gen != null">
+                gen = #{gen},
+            </if>
+            <if test="prop1 != null">
+                prop1 = #{prop1},
+            </if>
+            <if test="prop2 != null">
+                prop2 = #{prop2},
+            </if>
+            <if test="nameJpn != null">
+                name_jpn = #{nameJpn},
+            </if>
+            <if test="nameEng != null">
+                name_eng = #{nameEng},
+            </if>
+            <if test="pokeBasePic != null">
+                poke_base_pic = #{pokeBasePic}
+            </if>
+        </set>
+        where poke_base_code = #{pokeBaseCode}
+    </update>
+
+    <update id="deleteByCode">
+        update PokeBaseInfo
+        <set>
+            deleted = 1
+        </set>
+        where poke_base_code = #{code}
+    </update>
+
+    <update id="deleteByCodeList" parameterType="string">
+        update PokeBaseInfo
+        <set>
+            deleted = 1
+        </set>
+        where poke_base_code in
+        <foreach collection="list" item="code" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,17 @@
+{
+  "system": "smart-park-safety-protection-web",
+  "baseUrl": "https://qmcrm.zoomlion.com/smart-park-dev/api",
+  "basePath": "security",
+  "exportBasePath": "central-kitchensub",
+  "clientId": "101631542817119674368",
+  "appId": "1631542817119674368",
+  "fileAppid": "1694186543398391808",
+  "fileSecret": "a0f8271c7cc243f7a93a0de8f88926e2",
+  "fileFolder": "mpaas-qr-public",
+  "uploadBaseUrl": "https://qmcrm.zoomlion.com/cmm-gateway-beta/api",
+  "downloadBaseUrl": "https://qmcrm.zoomlion.com/cmm-nginx-beta",
+  "platformType": "security",
+  "commonServerUrl": "http://hwsrv-openapi.develop.zoomlion.com/api/cmm-rule-engine",
+  "EXPORT_COMMON_URL": "http://hwsrv-openapi.test.zoomlion.com/api",
+  "patrolDept": "00021163"
+}

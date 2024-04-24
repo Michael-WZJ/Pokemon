@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 静态页面 ###
+/src/main/resources/static/*
+/src/main/resources/staticReactBak/*
