@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Test</title>
+    </head>
+    <body>
+        <script>
+            // 使用了浏览器的Geolocation API来获取用户的地理位置信息
+            navigator.geolocation.getCurrentPosition(function(position) {
+                document.write(position.coords.latitude + ", " + position.coords.longitude);
+            });
+        </script>
+    </body>
+</html>

@@ -3,6 +3,7 @@
 spring:
   profiles:
     active: ${profile.active}
+#      active: dev
 
 #TODO 开启MyBatis自动映射驼峰命名
 mybatis:

@@ -20,10 +20,10 @@ public class PokemonBaseInfoServiceTest {
     private PokemonBaseInfoConverter baseInfoConverter;
 
     // 创建一个测试宝可梦
-    private PokemonBaseInfo createTestPokemon(String code) {
+    private PokemonBaseInfo createTestPokemon(String code, String name) {
         PokemonBaseInfo pokemon = new PokemonBaseInfo();
         pokemon.setPokeBaseCode(code);
-        pokemon.setPokeBaseName("test");
+        pokemon.setPokeBaseName(name);
         pokemon.setGen("test");
         pokemon.setNameEng("test");
         pokemon.setNameJpn("test");
@@ -38,30 +38,44 @@ public class PokemonBaseInfoServiceTest {
 
     @Test
     public void testGetByCode() {
-        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon("testGet"))));
+        String code = "testGet";
+        String name = "testGet";
+        baseInfoService.deleteByCode(code);
+
+        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon(code, name))));
         PokemonBaseInfoDTO pokemon = baseInfoService.getByCode("testGet");
-        assertEquals(pokemon.getPokeBaseName(), "test");
+        assertEquals(pokemon.getPokeBaseName(), "testGet");
         assertEquals(pokemon.getNameJpn(), "test");
         assertEquals(pokemon.getNameEng(), "test");
-        assertTrue(baseInfoService.deleteByCode("testGet"));
+        assertTrue(baseInfoService.deleteByCode(code));
+
+        baseInfoService.deleteByCode(code);
     }
 
     @Test
     public void testSaveAndDeleteByCode() {
-        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon("testSave"))));
-        assertTrue(baseInfoService.deleteByCode("testSave"));
+        String code = "testSave";
+        String name = "testSave";
+        baseInfoService.deleteByCode(code);
+
+        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon(code, name))));
+        assertTrue(baseInfoService.deleteByCode(code));
     }
 
     @Test
     public void testUpdate() {
-        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon("testUpdate"))));
-        PokemonBaseInfoDTO pokemon = baseInfoService.getByCode("testUpdate");
-        assertEquals(pokemon.getPokeBaseName(), "test");
+        String code = "testUpdate";
+        String name = "testUpdate";
+        baseInfoService.deleteByCode(code);
 
-        pokemon.setPokeBaseName("testUpdate");
-        assertTrue(baseInfoService.update(pokemon));
-        pokemon = baseInfoService.getByCode("testUpdate");
+        assertTrue(baseInfoService.save(baseInfoConverter.toDto(createTestPokemon(code, name))));
+        PokemonBaseInfoDTO pokemon = baseInfoService.getByCode(code);
         assertEquals(pokemon.getPokeBaseName(), "testUpdate");
-        assertTrue(baseInfoService.deleteByCode("testUpdate"));
+
+        pokemon.setPokeBaseName("testUpdateNew");
+        assertTrue(baseInfoService.update(pokemon));
+        pokemon = baseInfoService.getByCode(code);
+        assertEquals(pokemon.getPokeBaseName(), "testUpdateNew");
+        assertTrue(baseInfoService.deleteByCode(code));
     }
 }
