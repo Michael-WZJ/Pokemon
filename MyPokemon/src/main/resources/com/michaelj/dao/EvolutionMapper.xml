@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.michaelj.dao.EvolutionMapper">
+    <resultMap id="EvolutionResult" type="com.michaelj.domain.entity.Evolution">
+    </resultMap>
+
+    <sql id="BaseColumnMap">
+        t0.evol_id, t0.filial_code, t0.paternal_code
+    </sql>
+
+    <select id="getEvolCode" parameterType="string" resultType="string">
+        select paternal_code
+        from Evolution t0
+        <where>
+            t0.deleted = 0
+            and filial_code = #{code}
+        </where>
+    </select>
+</mapper>
