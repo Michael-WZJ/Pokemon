@@ -5,6 +5,7 @@
         <div slot="header" class="view-body-title">
             <div class="title-text body-title">基本信息</div>
             <el-button class="title-button" size="small" @click.stop="cancel">返 回</el-button>
+          <el-button class="title-button edit-button" size="small" @click.stop="showEdit">编 辑</el-button>
         </div>
 
         <div class="view-body-base-info">
@@ -68,6 +69,12 @@
               <span v-else>无图片 {{ form.pokeBasePic }}</span>
             </el-descriptions-item>
           </el-descriptions>
+
+          <div class="view-body-link grid-link">
+            <el-button type="text" class="left-button">&larr; &nbsp; No.前</el-button>
+            <el-button type="text">进化</el-button>
+            <el-button type="text" class="right-button">No.后 &nbsp; &rarr;</el-button>
+          </div>
         </div>
       </el-card>
     </div>
@@ -184,6 +191,17 @@ export default {
 
       // this.$router.go(-1);
     },
+
+    // 显示 编辑 页
+    showEdit(type = BASE_CONSTANT.EDIT) {
+      let code = this.formId;
+
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoAdd",
+        query: { id: code, type: type}
+      });
+    },
+
     //鼠标移入图片样式
     mouseOverStyle(index) {
       // const res = document.getElementsByClassName("showImage");
@@ -212,6 +230,47 @@ export default {
   }
   .view-body-title:after {
     clear: both
+  }
+
+  .edit-button {
+    margin-right: 16px;
+  }
+
+  .view-body-base-info {
+    .view-body-link {
+      .el-button {
+        padding: 16px 0 0 0;
+      }
+
+      .left-button {
+        //float: left;
+        margin-right: auto;
+      }
+
+      .right-button {
+        //float: right;
+        margin-left: auto;
+      }
+    }
+
+    // grid布局
+    .grid-link {
+      display: grid;
+      grid-column-gap: 16px;
+      grid-template-columns: repeat(3, 1fr);
+
+      .span2 {
+        grid-column-start: span 2;
+      }
+
+      .span3 {
+        grid-column-start: span 3;
+      }
+
+      .span4 {
+        grid-column-start: span 4;
+      }
+    }
   }
 
   .body-title {

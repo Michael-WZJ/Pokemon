@@ -197,12 +197,17 @@ export default {
             console.log(err, "接口请求失败");
           });
     },
-    cancel() {
-      this.$router?.push({
-        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoList"
-      });
+    cancel(event) {
+      let ctrlFlag = event.ctrlKey;
 
-      // this.$router.go(-1);
+      if (ctrlFlag) {
+        // 按下ctrl键，则是返回
+        this.$router.go(-1);
+      } else {
+        this.$router?.push({
+          name: "MyPokemon-pokeBaseInfo-pokeBaseInfoList"
+        });
+      }
     },
     // 重置数据
     resetFormData() {
