@@ -60,4 +60,14 @@ public class PokemonBaseInfoDTO {
      * 图片路径
      */
     private String pokeBasePic;
+
+    /**
+     * 进化（编号）
+     */
+    private String evolution;
+
+    /**
+     * 进化前（编号）
+     */
+    private String filial;
 }

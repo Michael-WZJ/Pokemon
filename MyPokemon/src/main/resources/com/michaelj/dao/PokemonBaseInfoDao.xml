@@ -134,7 +134,10 @@
                 poke_base_pic = #{pokeBasePic}
             </if>
         </set>
-        where poke_base_code = #{pokeBaseCode}
+        <where>
+            deleted = 0
+            and poke_base_code = #{pokeBaseCode}
+        </where>
     </update>
 
     <update id="deleteByCode">
@@ -142,7 +145,10 @@
         <set>
             deleted = 1
         </set>
-        where poke_base_code = #{code}
+        <where>
+            deleted = 0
+            and poke_base_code = #{code}
+        </where>
     </update>
 
     <update id="deleteByCodeList" parameterType="string">
@@ -150,9 +156,12 @@
         <set>
             deleted = 1
         </set>
-        where poke_base_code in
-        <foreach collection="list" item="code" open="(" separator="," close=")">
-            #{code}
-        </foreach>
+        <where>
+            deleted = 0
+            and poke_base_code in
+                <foreach collection="list" item="code" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+        </where>
     </update>
 </mapper>

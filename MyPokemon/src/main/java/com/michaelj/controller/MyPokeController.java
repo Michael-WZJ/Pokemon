@@ -1,5 +1,6 @@
 package com.michaelj.controller;
 
+import com.michaelj.application.PokeBaseInfoApplicationService;
 import com.michaelj.domain.Code;
 import com.michaelj.domain.base.Page;
 import com.michaelj.domain.dto.PokemonBaseInfoDTO;
@@ -17,6 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/web/mypokes")
 public class MyPokeController {
+    @Autowired
+    private PokeBaseInfoApplicationService baseInfoApplicationService;
+
     @Autowired
     private PokemonBaseInfoService baseInfoService;
 
@@ -38,7 +42,7 @@ public class MyPokeController {
      */
     @GetMapping("/{pokeCode}")
     public Result getByCode(@PathVariable String pokeCode) {
-        PokemonBaseInfoDTO pokemon = baseInfoService.getByCode(pokeCode);
+        PokemonBaseInfoDTO pokemon = baseInfoApplicationService.getByCode(pokeCode);
         int code = pokemon != null ? Code.GET_OK.getCode() : Code.GET_ERR.getCode();
         String msg = pokemon != null ? "查询成功" : "数据查询失败， 请重试！";
         return new Result(code, pokemon, msg);
@@ -74,9 +78,14 @@ public class MyPokeController {
         return new Result(code, cnt, msg);
     }
 
+    /**
+     * 新增宝可梦基本信息
+     * @param pokemon
+     * @return
+     */
     @PostMapping
     public Result save(@Validated({ValidateBaseInfo.add.class}) @RequestBody PokemonBaseInfoDTO pokemon) {
-        boolean flag = baseInfoService.save(pokemon);
+        boolean flag = baseInfoApplicationService.save(pokemon);
         return new Result(flag ? Code.SAVE_OK.getCode() : Code.SAVE_ERR.getCode(), flag);
     }
 
@@ -87,7 +96,7 @@ public class MyPokeController {
      */
     @PutMapping
     public Result update(@Validated({ValidateBaseInfo.update.class}) @RequestBody PokemonBaseInfoDTO pokemon) {
-        boolean flag = baseInfoService.update(pokemon);
+        boolean flag = baseInfoApplicationService.update(pokemon);
         return new Result(flag ? Code.UPDATE_OK.getCode() : Code.UPDATE_ERR.getCode(), flag);
     }
 
@@ -98,7 +107,7 @@ public class MyPokeController {
      */
     @DeleteMapping("/{pokeCode}")
     public Result deleteByCode(@PathVariable String pokeCode) {
-        boolean flag = baseInfoService.deleteByCode(pokeCode);
+        boolean flag = baseInfoApplicationService.deleteByCode(pokeCode);
         return new Result(flag ? Code.DELETE_OK.getCode() : Code.DELETE_ERR.getCode(), flag);
     }
 
