@@ -18,4 +18,43 @@
             and filial_code = #{code}
         </where>
     </select>
+
+    <select id="getFilialCode" parameterType="string" resultType="string">
+        select filial_code
+        from Evolution t0
+        <where>
+            t0.deleted = 0
+            and paternal_code = #{code}
+        </where>
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="evolId">
+        insert into
+        Evolution
+        (filial_code, paternal_code)
+        values
+        (#{filialCode}, #{paternalCode})
+    </insert>
+
+    <update id="update">
+        update Evolution
+        <set>
+            paternal_code = #{paternalCode}
+        </set>
+        <where>
+            deleted = 0
+            and filial_code = #{filialCode}
+        </where>
+    </update>
+
+    <update id="deleteByFilialCode">
+        update Evolution
+        <set>
+            deleted = 1
+        </set>
+        <where>
+            deleted = 0
+            and filial_code = #{code}
+        </where>
+    </update>
 </mapper>
