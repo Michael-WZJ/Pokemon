@@ -193,8 +193,9 @@ export default {
     },
 
     // 显示 编辑 页
-    showEdit(type = BASE_CONSTANT.EDIT) {
+    showEdit() {
       let code = this.formId;
+      let type = BASE_CONSTANT.EDIT;
 
       this.$router?.push({
         name: "MyPokemon-pokeBaseInfo-pokeBaseInfoAdd",

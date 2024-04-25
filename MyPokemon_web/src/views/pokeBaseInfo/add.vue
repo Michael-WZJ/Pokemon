@@ -67,6 +67,16 @@
               <el-form-item label="图片" prop="pokeBasePic" class="span3">
                 <el-input v-model.trim="dialogForm.pokeBasePic"/>
               </el-form-item>
+
+              <span @click="onShrink" class="shrink-text span3">
+                更多&nbsp;
+                <i v-show="!shrinkIcon" class="el-icon-arrow-down"></i>
+                <i v-show="shrinkIcon" class="el-icon-arrow-up"></i>
+              </span>
+
+              <el-form-item label="进化（编号）" prop="evolution" v-show="!shrinkIcon">
+                <el-input v-model.trim="dialogForm.evolution" maxlength="10" show-word-limit clearable/>
+              </el-form-item>
             </div>
           </el-form>
         </div>
@@ -110,7 +120,8 @@ export default {
         prop2: "",
         nameJpn: "",
         nameEng: "",
-        pokeBasePic: ""
+        pokeBasePic: "",
+        evolution: ""
       },
       propObj: {
         prop1: "",
@@ -118,6 +129,10 @@ export default {
       },
       btnLoading: false,
       showChooseProps: false,
+
+      // 收缩按钮的图标改变
+      shrinkIcon: false,
+
       genDict: {
         label: 'genName',
         value: 'genCode'
@@ -161,6 +176,14 @@ export default {
         if (val) {
           this.getBaseInfo4Edit(val);
         }
+      }
+    },
+    formType: {
+      immediate: true,
+      handler(val) {
+        // 新增时 默认展开 更多表单
+        // 编辑时 默认不展开 更多表单
+        this.shrinkIcon = val !== BASE_CONSTANT.ADD;
       }
     },
     formReset: {
@@ -224,6 +247,11 @@ export default {
         nameEng: "",
         pokeBasePic: ""
       };
+    },
+
+    onShrink() {
+      // console.log("收缩");
+      this.shrinkIcon = !this.shrinkIcon;
     },
 
     chooseProps() {
@@ -434,6 +462,22 @@ export default {
 }
 
 ::v-deep .add-body-form {
+  .shrink-text {
+    margin-left: auto;
+    color: #2a7fff;
+    cursor: pointer;
+
+    /* PF/Text/Medium/16 */
+    font-family: PingFang SC;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 24px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0em;
+  }
+
   .el-form-item {
     margin-right: 0;
   }
