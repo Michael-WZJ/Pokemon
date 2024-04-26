@@ -25,6 +25,13 @@ public interface PokemonBaseInfoDao {
 
     PokemonBaseInfo selectByName(String name);
 
+    /**
+     * 根据 编号前缀 查询 宝可梦数量
+     * @param codePrefix
+     * @return
+     */
+    int selectByCodePrefix(String codePrefix);
+
     @Select("select * from PokeBaseInfo")
     List<PokemonBaseInfo> getAll();
 

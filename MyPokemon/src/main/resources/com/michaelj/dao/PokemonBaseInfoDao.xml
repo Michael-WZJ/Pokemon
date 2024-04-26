@@ -80,6 +80,16 @@
         </where>
     </select>
 
+    <select id="selectByCodePrefix" parameterType="string" resultType="int">
+        select
+        count(1)
+        from PokeBaseInfo t0
+        <where>
+            deleted = 0
+            and poke_base_code like #{codePrefix}||'%'
+        </where>
+    </select>
+
     <insert id="save" useGeneratedKeys="true" keyProperty="pokeBaseId">
         insert into
         PokeBaseInfo

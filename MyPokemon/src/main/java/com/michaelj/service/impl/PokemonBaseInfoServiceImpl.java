@@ -8,8 +8,10 @@ import com.michaelj.domain.converter.PokemonBaseInfoConverter;
 import com.michaelj.domain.dto.PokemonBaseInfoDTO;
 import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
+import com.michaelj.infrastructure.constant.BaseConst;
 import com.michaelj.infrastructure.constant.PokeExceptionEnum;
 import com.michaelj.infrastructure.exception.BusinessException;
+import com.michaelj.infrastructure.utils.BaseUtils;
 import com.michaelj.infrastructure.utils.PageExecutor;
 import com.michaelj.service.PokemonBaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,11 @@ import java.util.List;
 // TODO 定义 Service bean
 @Service
 public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
+    public static final String SPLIT = "-";
+    public static final String DEFAULT_SUFFIX = "00";
+    public static final int FIRST = 0;
+    public static final int SECOND = 1;
+
     @Autowired
     private PokemonBaseInfoDao baseInfoDao;
 
@@ -71,6 +78,74 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     @Override
     public Long getPokeCount() {
         return baseInfoDao.getPokeCount();
+    }
+
+    /**
+     * 根据编号 获取下一个编号
+     *
+     * @param code
+     * @return
+     */
+    @Override
+    public String getNextCode(String code) {
+        String validCode;
+        // 1、是否是带-的编号+1
+        validCode = generateNextCode(code, true);
+        if (!ObjectUtil.isEmpty(getByCode(validCode))) {
+            return validCode;
+        }
+        // 2、是否是直接编号+1
+        validCode = generateNextCode(code, false);
+        if (!ObjectUtil.isEmpty(getByCode(validCode))) {
+            return validCode;
+        }
+        // 3、都不是，则代表是最后一个编号，返回第一个编号
+        return BaseConst.FIRST_CODE;
+    }
+
+    /**
+     * 根据编号 获取上一个编号
+     *
+     * @param code
+     * @return
+     */
+    @Override
+    public String getPrevCode(String code) {
+        if (BaseConst.FIRST_CODE.equals(code)) {
+            // 处理 0001, 分页查最后一个
+            long cnt = getPokeCount();
+            PokeBaseInfoQuery query = new PokeBaseInfoQuery();
+            query.setStart(cnt - 1);
+            query.setPageSize(1);
+            List<PokemonBaseInfo> result = baseInfoDao.selectPageList(query);
+            return result.get(BaseConst.FIRST_ITEM).getPokeBaseCode();
+        }
+
+        String[] arr = code.split(SPLIT);
+        int len = arr.length;
+        String codePrefix = arr[FIRST];
+        String codeSuffix;
+
+        if (len > 1) {
+            // 当前编号带后缀
+            codeSuffix = BaseUtils.computeCode(arr[SECOND], false);
+            return DEFAULT_SUFFIX.equals(codeSuffix) ? codePrefix : String.join(SPLIT, codePrefix, codeSuffix);
+        } else {
+            // 当前编号不带后缀
+            codePrefix = BaseUtils.computeCode(codePrefix, false);
+            // 查询以前缀开头的数量
+            int cnt = baseInfoDao.selectByCodePrefix(codePrefix);
+            if (cnt == 0) {
+                // 编号不连续，采用返回第一个宝可梦作为临时方案
+                return BaseConst.FIRST_CODE;
+            }
+            if (cnt == 1) {
+                return codePrefix;
+            } else {
+                codeSuffix = BaseUtils.buildCode(cnt-1, 2);
+                return String.join(SPLIT, codePrefix, codeSuffix);
+            }
+        }
     }
 
     @Override
@@ -164,5 +239,20 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
 
     public void generalVerify(PokemonBaseInfoDTO baseInfoDTO) {
 
+    }
+
+    @Override
+    public String generateNextCode(String code, boolean withDash) {
+        String[] arr = code.split(SPLIT);
+        int len = arr.length;
+        String codePrefix = arr[FIRST];
+        String codeSuffix = len > 1 ? arr[SECOND] : DEFAULT_SUFFIX;
+
+        if (withDash) {
+            codeSuffix = BaseUtils.computeCode(codeSuffix, true);
+            return String.join(SPLIT, codePrefix, codeSuffix);
+        } else {
+            return BaseUtils.computeCode(codePrefix, true);
+        }
     }
 }

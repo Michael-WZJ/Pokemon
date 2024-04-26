@@ -70,4 +70,14 @@ public class PokemonBaseInfoDTO {
      * 进化前（编号）
      */
     private String filial;
+
+    /**
+     * 上一个编号
+     */
+    private String prevCode;
+
+    /**
+     * 下一个编号
+     */
+    private String nextCode;
 }

@@ -39,12 +39,27 @@ public interface PokemonBaseInfoService {
     List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon);
 
 
-
     /**
      * 查询全部宝可梦的数量
      * @return
      */
     Long getPokeCount();
+
+
+    /**
+     * 根据编号 获取下一个编号
+     * @param code
+     * @return
+     */
+    String getNextCode(String code);
+
+    /**
+     * 根据编号 获取上一个编号
+     * @param code
+     * @return
+     */
+    String getPrevCode(String code);
+
 
     /**
      * 保存
@@ -73,4 +88,7 @@ public interface PokemonBaseInfoService {
      * @return
      */
     int deleteByCodeList(List<String> codeList);
+
+
+    String generateNextCode(String code, boolean withDash);
 }

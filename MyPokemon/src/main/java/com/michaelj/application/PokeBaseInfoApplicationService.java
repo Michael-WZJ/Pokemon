@@ -30,6 +30,10 @@ public class PokeBaseInfoApplicationService {
         baseInfoDTO.setEvolution(evolutionService.getEvolCode(code));
         // 获取进化前编号
         baseInfoDTO.setFilial(evolutionService.getFilialCode(code));
+        // 获取下一个编号
+        baseInfoDTO.setNextCode(baseInfoService.getNextCode(code));
+        // 获取上一个编号
+        baseInfoDTO.setPrevCode(baseInfoService.getPrevCode(code));
         return baseInfoDTO;
     }
 
