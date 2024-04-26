@@ -78,4 +78,20 @@ public class PokemonBaseInfoServiceTest {
         assertEquals(pokemon.getPokeBaseName(), "testUpdateNew");
         assertTrue(baseInfoService.deleteByCode(code));
     }
+
+    @Test
+    public void testGenNext() {
+        String code = "0999";
+        String codeDash = "0999-04";
+
+        System.out.println(baseInfoService.generateNextCode(code, false));
+        System.out.println(baseInfoService.generateNextCode(code, true));
+        System.out.println(baseInfoService.generateNextCode(codeDash, false));
+        System.out.println(baseInfoService.generateNextCode(codeDash, true));
+
+        assertEquals(baseInfoService.generateNextCode("0001", false), "0002");
+        assertEquals(baseInfoService.generateNextCode("0001", true), "0001-01");
+        assertEquals(baseInfoService.generateNextCode("0099-01", false), "0100");
+        assertEquals(baseInfoService.generateNextCode("0099-01", true), "0099-02");
+    }
 }
