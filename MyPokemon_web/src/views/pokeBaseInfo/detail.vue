@@ -71,9 +71,12 @@
           </el-descriptions>
 
           <div class="view-body-link grid-link">
-            <el-button type="text" class="left-button">&larr; &nbsp; No.前</el-button>
-            <el-button type="text">进化</el-button>
-            <el-button type="text" class="right-button">No.后 &nbsp; &rarr;</el-button>
+            <el-button @click.stop="toPrev" type="text" class="left-button">&larr; &nbsp; No.{{ form.prevCode }}</el-button>
+            <div class="evolution-button">
+              <el-button @click.stop="toEvolution" v-if="hasEvol" type="text">进化</el-button>
+              <el-button @click.stop="toFilial" v-if="hasFilial" type="text">后退</el-button>
+            </div>
+            <el-button @click.stop="toNext" type="text" class="right-button">No.{{ form.nextCode }} &nbsp; &rarr;</el-button>
           </div>
         </div>
       </el-card>
@@ -105,7 +108,11 @@ export default {
         prop2: "",
         nameJpn: "",
         nameEng: "",
-        pokeBasePic: ""
+        pokeBasePic: "",
+        evolution: "",
+        filial: "",
+        prevCode: "",
+        nextCode: ""
       },
       pokePicFlag: false,
       //详情中描述列表的样式
@@ -131,6 +138,12 @@ export default {
       } else {
         return "";
       }
+    },
+    hasEvol() {
+      return !isEmpty(this.form.evolution);
+    },
+    hasFilial() {
+      return !isEmpty(this.form.filial);
     }
   },
   watch: {
@@ -202,6 +215,30 @@ export default {
         query: { id: code, type: type}
       });
     },
+    toEvolution() {
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
+        query: { id: this.form.evolution }
+      });
+    },
+    toFilial() {
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
+        query: { id: this.form.filial }
+      });
+    },
+    toPrev() {
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
+        query: { id: this.form.prevCode }
+      });
+    },
+    toNext() {
+      this.$router?.push({
+        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
+        query: { id: this.form.nextCode }
+      });
+    },
 
     //鼠标移入图片样式
     mouseOverStyle(index) {
@@ -251,6 +288,12 @@ export default {
       .right-button {
         //float: right;
         margin-left: auto;
+      }
+
+      .evolution-button {
+        display: flex;
+        justify-content: center; // 水平居中
+        //align-items: center;
       }
     }
 
