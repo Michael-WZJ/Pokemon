@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.Map;
 
 public class JwtUtils {
-    private static final String signKey = "c2VjcmV0"; // "secret" Base64编码
-    private static final Long expire = (long)(6 * 3600 * 1000); // 设置有效期为 6h
+    private static final String SIGN_KEY = "c2VjcmV0"; // "secret" Base64编码
+    private static final Long EXPIRE = (long)(6 * 3600 * 1000); // 设置有效期为 6h
 
     /**
      * 生成JWT令牌
@@ -19,8 +19,8 @@ public class JwtUtils {
     public static String generateJwt(Map<String, Object> claims) {
         String token = Jwts.builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS256, signKey)
-                .setExpiration(new Date(System.currentTimeMillis() + expire))
+                .signWith(SignatureAlgorithm.HS256, SIGN_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))
                 .compact();
 
         return token;
@@ -33,7 +33,7 @@ public class JwtUtils {
      */
     public static Claims parseJwt(String jwt) {
         Claims claims = Jwts.parser()
-                .setSigningKey(signKey)
+                .setSigningKey(SIGN_KEY)
                 .parseClaimsJws(jwt)
                 .getBody();
 
@@ -41,6 +41,6 @@ public class JwtUtils {
     }
 
     public static Long getExpire() {
-        return expire;
+        return EXPIRE;
     }
 }
