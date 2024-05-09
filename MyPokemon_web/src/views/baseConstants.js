@@ -6,6 +6,8 @@ export const BASE_CONSTANT = {
   ADD_TXT: "新增",
   ADD_SUCCESS_TXT: "新增成功",
 
+  SPLIT_CAESURA: "、",
+
   TRUE: "true",
   FALSE: "false",
 

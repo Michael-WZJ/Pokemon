@@ -80,12 +80,34 @@
           </div>
         </div>
       </el-card>
+
+      <div class="container-card">
+        <el-card v-if="evolList.length > 1" v-show="showEvol" class="evolution-card" :style="{ width: computeEvolWidth(evolList.length) }">
+          <div class="evolution-body">
+            <div v-for="evol in evolPokeList" :key="evol.pokeBaseCode" class="evol-item">
+              <el-button @click="redirectDetail(evol.pokeBaseCode)" type="text">
+                {{ evol.pokeBaseName }}
+              </el-button>
+            </div>
+          </div>
+        </el-card>
+
+        <el-card v-if="filialList.length > 1" v-show="showFilial" class="evolution-card" :style="{ width: computeEvolWidth(filialList.length) }">
+          <div class="evolution-body">
+            <div v-for="fil in filialPokeList" :key="fil.pokeBaseCode" class="evol-item">
+              <el-button @click="redirectDetail(fil.pokeBaseCode)" type="text">
+                {{ fil.pokeBaseName }}
+              </el-button>
+            </div>
+          </div>
+        </el-card>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getBaseInfoDetail } from "@/api/pokeBaseInfoApi";
+import { getBaseInfoDetail, getByCodeList } from "@/api/pokeBaseInfoApi";
 import { BASE_CONSTANT } from "@/views/baseConstants";
 import {cloneDeep, isEmpty} from "lodash";
 import CssProp from "@/mixin/cssProp";
@@ -115,6 +137,10 @@ export default {
         nextCode: ""
       },
       pokePicFlag: false,
+      showEvol: false,
+      showFilial: false,
+      evolPokeList: [],
+      filialPokeList: [],
       //详情中描述列表的样式
       detailLabelStyle: {},
       detailContentStyle: {}
@@ -144,6 +170,18 @@ export default {
     },
     hasFilial() {
       return !isEmpty(this.form.filial);
+    },
+    evolList() {
+      if (!this.hasEvol) {
+        return [];
+      }
+      return this.form.evolution.split(BASE_CONSTANT.SPLIT_CAESURA);
+    },
+    filialList() {
+      if (!this.hasFilial) {
+        return [];
+      }
+      return this.form.filial.split(BASE_CONSTANT.SPLIT_CAESURA);
     }
   },
   watch: {
@@ -152,6 +190,26 @@ export default {
       handler(val) {
         if (val) {
           this.getBaseInfoDetail(val);
+        }
+        this.showEvol = false;
+        this.showFilial = false;
+      }
+    },
+    evolList: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (val.length > 1) {
+          this.getEvolList(val);
+        }
+      }
+    },
+    filialList: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (val.length > 1) {
+          this.getFilialList(val);
         }
       }
     },
@@ -195,6 +253,46 @@ export default {
             console.log(err, "接口请求失败");
           });
     },
+    async getEvolList(evolList) {
+      // console.log("获取进化", evolList);
+      getByCodeList(evolList)
+          .then(res => {
+            // console.log(res);
+            if (res.data.code === 10041) {
+              // console.log(res.data);
+              this.evolPokeList = res?.data?.data || [];
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err, "接口请求失败");
+          });
+    },
+    async getFilialList(filList) {
+      // console.log("获取后退", filList);
+      getByCodeList(filList)
+          .then(res => {
+            // console.log(res);
+            if (res.data.code === 10041) {
+              // console.log(res.data);
+              this.filialPokeList = res?.data?.data || [];
+            } else {
+              this.$message({
+                showClose: true,
+                message: res.data.msg,
+                type: "error"
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err, "接口请求失败");
+          });
+    },
     cancel(event) {
       // console.log("event2", event.ctrlKey);
 
@@ -216,28 +314,36 @@ export default {
       });
     },
     toEvolution() {
-      this.$router?.push({
-        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
-        query: { id: this.form.evolution }
-      });
+      if (this.evolList.length > 1) {
+        this.showEvol = !this.showEvol;
+      } else {
+        this.redirectDetail(this.form.evolution);
+      }
     },
     toFilial() {
-      this.$router?.push({
-        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
-        query: { id: this.form.filial }
-      });
+      if (this.filialList.length > 1) {
+        this.showFilial = !this.showFilial;
+      } else {
+        this.redirectDetail(this.form.filial);
+      }
     },
     toPrev() {
-      this.$router?.push({
-        name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
-        query: { id: this.form.prevCode }
-      });
+      this.redirectDetail(this.form.prevCode);
     },
     toNext() {
+      this.redirectDetail(this.form.nextCode);
+    },
+    // 跳转 详情页
+    redirectDetail(code) {
       this.$router?.push({
         name: "MyPokemon-pokeBaseInfo-pokeBaseInfoDetail",
-        query: { id: this.form.nextCode }
+        query: { id: code }
       });
+    },
+
+    computeEvolWidth(len) {
+      let per = Math.min(len/12*100, 100);
+      return `${per}%`;
     },
 
     //鼠标移入图片样式
@@ -316,6 +422,28 @@ export default {
       }
     }
   }
+
+  ::v-deep .container-card {
+    display: flex;
+    flex-direction: column; /* 设置为列布局 */
+    align-items: center; /* 水平居中 */
+
+    .evolution-card {
+      .el-card__body {
+        padding: 8px;
+      }
+
+      .evolution-body {
+        display: flex;
+        justify-content: center;
+
+        .evol-item {
+          padding: 0 16px 0 16px;
+        }
+      }
+    }
+  }
+
 
   .body-title {
     display: inline;

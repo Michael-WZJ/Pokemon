@@ -25,6 +25,15 @@ export function getBaseInfoDetail(code) {
   });
 }
 
+// 根据 编号列表 查询
+export function getByCodeList(data) {
+  return request({
+    url: `${PREFIX}/getByCodes`,
+    method: "POST",
+    data: data
+  });
+}
+
 // 新增宝可梦信息
 export function addBaseInfo(data) {
   return request({
