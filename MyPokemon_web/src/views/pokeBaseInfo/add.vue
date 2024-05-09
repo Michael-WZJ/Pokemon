@@ -74,8 +74,8 @@
                 <i v-show="shrinkIcon" class="el-icon-arrow-up"></i>
               </span>
 
-              <el-form-item label="进化（编号）" prop="evolution" v-show="!shrinkIcon">
-                <el-input v-model.trim="dialogForm.evolution" maxlength="10" show-word-limit clearable/>
+              <el-form-item label="进化【编号】（多个请用、分隔）" prop="evolution" v-show="!shrinkIcon">
+                <el-input v-model.trim="dialogForm.evolution" maxlength="100" show-word-limit clearable/>
               </el-form-item>
             </div>
           </el-form>
@@ -245,7 +245,8 @@ export default {
         prop2: "",
         nameJpn: "",
         nameEng: "",
-        pokeBasePic: ""
+        pokeBasePic: "",
+        evolution: ""
       };
     },
 
