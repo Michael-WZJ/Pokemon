@@ -436,6 +436,7 @@ export default {
       .evolution-body {
         display: flex;
         justify-content: center;
+        flex-wrap: wrap; /* 允许换行 */
 
         .evol-item {
           padding: 0 16px 0 16px;
