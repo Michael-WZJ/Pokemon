@@ -38,6 +38,13 @@ public interface PokemonBaseInfoService {
      */
     List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon);
 
+    /**
+     * 根据 编号列表 查询宝可梦
+     * @param codeList
+     * @return
+     */
+    List<PokemonBaseInfo> getByCodeList(List<String> codeList);
+
 
     /**
      * 查询全部宝可梦的数量
@@ -91,4 +98,10 @@ public interface PokemonBaseInfoService {
 
 
     String generateNextCode(String code, boolean withDash);
+
+    /**
+     * 进化列表 去重!!!
+     * @param pokemonBaseInfoDTO
+     */
+    void removeDuplicatedEvols(PokemonBaseInfoDTO pokemonBaseInfoDTO);
 }

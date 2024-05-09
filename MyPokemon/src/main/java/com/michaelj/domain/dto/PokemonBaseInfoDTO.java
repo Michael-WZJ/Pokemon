@@ -19,8 +19,10 @@ public class PokemonBaseInfoDTO {
 
     /**
      * 编号
+     * 四位数字 或者 四位数字-两位数字
      */
     @NotBlank(message = "编号不能为空")
+    @Pattern(regexp = "^\\d{4}(?:-\\d{2})?$", message = "宝可梦编号 格式错误")
     private String pokeBaseCode;
 
     /**
@@ -63,7 +65,9 @@ public class PokemonBaseInfoDTO {
 
     /**
      * 进化（编号）
+     * 多个用、分隔
      */
+    @Pattern(regexp = "^(?:(?:\\d{4}(?:-\\d{2})?、?)*\\d{4}(?:-\\d{2})?)?$", message = "进化（编号） 格式错误")
     private String evolution;
 
     /**

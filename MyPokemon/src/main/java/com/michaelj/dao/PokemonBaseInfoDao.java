@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
-//TODO 添加@Mapper
+//TODO_wzj 添加@Mapper
 @Mapper
 public interface PokemonBaseInfoDao {
     /**
@@ -23,6 +23,11 @@ public interface PokemonBaseInfoDao {
      */
     long selectPageListCount(PokeBaseInfoQuery query);
 
+    /**
+     * 根据 名称 查询宝可梦
+     * @param name
+     * @return
+     */
     PokemonBaseInfo selectByName(String name);
 
     /**
@@ -31,6 +36,13 @@ public interface PokemonBaseInfoDao {
      * @return
      */
     int selectByCodePrefix(String codePrefix);
+
+    /**
+     * 根据 编号列表 查询宝可梦
+     * @param codeList
+     * @return
+     */
+    List<PokemonBaseInfo> selectByCodeList(List<String> codeList);
 
     @Select("select * from PokeBaseInfo")
     List<PokemonBaseInfo> getAll();

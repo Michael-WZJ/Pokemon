@@ -18,9 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-// TODO 定义 Service bean
+// TODO_wzj 定义 Service bean
 @Service
 public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     public static final String SPLIT = "-";
@@ -73,6 +75,17 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     @Override
     public List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon) {
         return baseInfoDao.getByCondition(pokemon);
+    }
+
+    /**
+     * 根据 编号列表 查询宝可梦
+     *
+     * @param codeList
+     * @return
+     */
+    @Override
+    public List<PokemonBaseInfo> getByCodeList(List<String> codeList) {
+        return baseInfoDao.selectByCodeList(codeList);
     }
 
     @Override
@@ -254,5 +267,17 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
         } else {
             return BaseUtils.computeCode(codePrefix, true);
         }
+    }
+
+    /**
+     * 进化列表 去重!!!
+     * @param pokemonBaseInfoDTO
+     */
+    @Override
+    public void removeDuplicatedEvols(PokemonBaseInfoDTO pokemonBaseInfoDTO) {
+        String evolStr = Arrays.stream(pokemonBaseInfoDTO.getEvolution().split(BaseConst.SPLIT_CAESURA))
+                .distinct()
+                .collect(Collectors.joining(BaseConst.SPLIT_CAESURA));
+        pokemonBaseInfoDTO.setEvolution(evolStr);
     }
 }

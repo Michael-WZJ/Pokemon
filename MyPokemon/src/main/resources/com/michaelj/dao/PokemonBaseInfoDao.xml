@@ -85,8 +85,21 @@
         count(1)
         from PokeBaseInfo t0
         <where>
-            deleted = 0
+            t0.deleted = 0
             and poke_base_code like #{codePrefix}||'%'
+        </where>
+    </select>
+
+    <select id="selectByCodeList" resultMap="PokeBaseInfoResult" parameterType="string">
+        select
+        <include refid="BaseColumnMap"/>
+        from PokeBaseInfo t0
+        <where>
+            t0.deleted = 0
+            and poke_base_code in
+            <foreach collection="list" item="code" open="(" separator="," close=")">
+                #{code}
+            </foreach>
         </where>
     </select>
 
