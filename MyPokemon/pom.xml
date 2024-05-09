@@ -33,7 +33,7 @@
 			<version>3.0.0</version>
 		</dependency>
 
-		<!--TODO sqlite -->
+		<!--TODO_wzj sqlite -->
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>
@@ -52,7 +52,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--TODO JWT令牌 -->
+		<!--TODO_wzj JWT令牌 -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
@@ -143,7 +143,7 @@
 		</plugins>
 	</build>
 
-	<!--TODO 多环境启动配置 -->
+	<!--TODO_wzj 多环境启动配置 -->
 	<profiles>
 		<profile>
 			<id>dev_env</id>

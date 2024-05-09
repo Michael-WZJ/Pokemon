@@ -1,11 +1,11 @@
-#TODO 配置数据源相关信息
+#TODO_wzj 配置数据源相关信息
 
 spring:
   profiles:
     active: ${profile.active}
 #      active: dev
 
-#TODO 开启MyBatis自动映射驼峰命名
+#TODO_wzj 开启MyBatis自动映射驼峰命名
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
