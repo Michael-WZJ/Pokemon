@@ -27,7 +27,7 @@ public class PokeBaseInfoApplicationService {
     public PokemonBaseInfoDTO getByCode(String code) {
         PokemonBaseInfoDTO baseInfoDTO = baseInfoService.getByCode(code);
         // 获取进化编号
-        baseInfoDTO.setEvolution(evolutionService.getEvolCode(code));
+        baseInfoDTO.setEvolution(evolutionService.getEvolCodesStr(code));
         // 获取进化前编号
         baseInfoDTO.setFilial(evolutionService.getFilialCode(code));
         // 获取下一个编号
@@ -53,7 +53,9 @@ public class PokeBaseInfoApplicationService {
             // 如果 进化 为空，则不需要添加进化链
             return true;
         }
+
         // 如果 进化 不为空，则添加进化链
+        baseInfoService.removeDuplicatedEvols(pokemon); // 去重
         return evolutionService.saveByPoke(pokemon);
     }
 
@@ -69,6 +71,7 @@ public class PokeBaseInfoApplicationService {
             return false;
         }
 
+        baseInfoService.removeDuplicatedEvols(pokemon); // 去重
         return evolutionApplicationService.updateByPokeWithRules(pokemon);
     }
 

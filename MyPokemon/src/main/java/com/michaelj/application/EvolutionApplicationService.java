@@ -1,14 +1,20 @@
 package com.michaelj.application;
 
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.michaelj.domain.dto.PokemonBaseInfoDTO;
+import com.michaelj.domain.entity.PokemonBaseInfo;
+import com.michaelj.infrastructure.constant.BaseConst;
 import com.michaelj.infrastructure.constant.PokeExceptionEnum;
 import com.michaelj.infrastructure.exception.BusinessException;
 import com.michaelj.service.EvolutionService;
 import com.michaelj.service.PokemonBaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EvolutionApplicationService {
@@ -24,6 +30,7 @@ public class EvolutionApplicationService {
      * @param pokemon
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     public boolean updateByPokeWithRules(PokemonBaseInfoDTO pokemon) {
         String evolution = pokemon.getEvolution();
         String code = pokemon.getPokeBaseCode();
@@ -35,20 +42,27 @@ public class EvolutionApplicationService {
             return true;
         }
 
+        List<String> evolutionList = List.of(evolution.split(BaseConst.SPLIT_CAESURA));
+        List<PokemonBaseInfo> evolPokeList = baseInfoService.getByCodeList(evolutionList);
         // 如果进化型不存在，则不能修改
-        if (ObjectUtil.isEmpty(baseInfoService.getByCode(evolution))) {
-            throw new BusinessException(PokeExceptionEnum.EVOL_PATERNAL_NOT_FOUND_FAIL);
+        if (evolutionList.size() != evolPokeList.size()) {
+            Set<String> evolPokeSet = evolPokeList.stream()
+                    .map(PokemonBaseInfo::getPokeBaseCode)
+                    .collect(Collectors.toSet());
+
+            // 找到不存在的 进化型编号
+            String missingEvols = evolutionList.stream()
+                    .filter(e -> !evolPokeSet.contains(e))
+                    .collect(Collectors.joining(BaseConst.SPLIT_CAESURA));
+
+            throw new BusinessException(PokeExceptionEnum.EVOL_PATERNAL_NOT_FOUND_FAIL, missingEvols);
         }
 
+        // 更新进化关系，先删除 再新增
         boolean flag;
-        if (StrUtil.isBlank(evolutionService.getEvolCode(code))) {
-            // 如果该进化链不存在，则创建进化链
-            flag = evolutionService.saveByPoke(pokemon);
-        } else {
-            // 如果该进化链存在，则更新进化链
-            flag = evolutionService.updateByPoke(pokemon);
-
-        }
+        evolutionService.deleteByFilialCode(code);
+        // save方法会 去重!!!
+        flag = evolutionService.saveByPoke(pokemon);
         return flag;
     }
 }
