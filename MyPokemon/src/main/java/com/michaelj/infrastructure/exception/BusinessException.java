@@ -4,6 +4,7 @@ import com.michaelj.domain.Code;
 import com.michaelj.infrastructure.constant.BaseExceptionEnum;
 
 import java.io.Serial;
+import java.text.MessageFormat;
 
 public class BusinessException extends RuntimeException {
     @Serial
@@ -22,6 +23,11 @@ public class BusinessException extends RuntimeException {
 
     public BusinessException(BaseExceptionEnum except) {
         super(except.getMessage());
+        this.code = except.getCode();
+    }
+
+    public BusinessException(BaseExceptionEnum except, String... params) {
+        super(MessageFormat.format(except.getMessage(), (Object[]) params));
         this.code = except.getCode();
     }
 
