@@ -8,7 +8,7 @@ public interface EvolutionService {
      * @param code
      * @return
      */
-    String getEvolCode(String code);
+    String getEvolCodesStr(String code);
 
     /**
      * 根据编号 查询进化前（编号）
@@ -36,5 +36,5 @@ public interface EvolutionService {
      * @param code
      * @return
      */
-    boolean deleteByFilialCode(String code);
+    int deleteByFilialCode(String code);
 }

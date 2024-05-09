@@ -12,24 +12,25 @@ public interface EvolutionMapper {
      * @param code
      * @return
      */
-    String getEvolCode(String code);
+    List<String> getEvolCodeList(String code);
 
     /**
      * 根据编号 查询进化前（编号）
      * @param code
      * @return
      */
-    String getFilialCode(String code);
+    List<String> getFilialCodeList(String code);
 
     /**
-     * 新增进化关系
-     * @param evolution
+     * 批量新增进化关系
+     * @param evolutionList
      * @return
      */
-    int save(Evolution evolution);
+    int saveList(List<Evolution> evolutionList);
 
     /**
      * 修改进化关系
+     * 暂时用不上
      * @param evolution
      * @return
      */

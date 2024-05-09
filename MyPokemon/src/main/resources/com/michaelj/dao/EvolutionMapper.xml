@@ -10,30 +10,34 @@
         t0.evol_id, t0.filial_code, t0.paternal_code
     </sql>
 
-    <select id="getEvolCode" parameterType="string" resultType="string">
+    <select id="getEvolCodeList" parameterType="string" resultType="string">
         select paternal_code
         from Evolution t0
         <where>
             t0.deleted = 0
             and filial_code = #{code}
         </where>
+        order by paternal_code ASC
     </select>
 
-    <select id="getFilialCode" parameterType="string" resultType="string">
+    <select id="getFilialCodeList" parameterType="string" resultType="string">
         select filial_code
         from Evolution t0
         <where>
             t0.deleted = 0
             and paternal_code = #{code}
         </where>
+        order by filial_code ASC
     </select>
 
-    <insert id="save" useGeneratedKeys="true" keyProperty="evolId">
+    <insert id="saveList" parameterType="java.util.List">
         insert into
         Evolution
         (filial_code, paternal_code)
         values
-        (#{filialCode}, #{paternalCode})
+        <foreach collection="list" item="e" separator=",">
+            (#{e.filialCode}, #{e.paternalCode})
+        </foreach>
     </insert>
 
     <update id="update">

@@ -1,5 +1,6 @@
 package com.michaelj.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.michaelj.dao.EvolutionMapper;
 import com.michaelj.domain.dto.PokemonBaseInfoDTO;
@@ -10,6 +11,10 @@ import com.michaelj.infrastructure.exception.BusinessException;
 import com.michaelj.service.EvolutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EvolutionServiceImpl implements EvolutionService {
@@ -23,12 +28,13 @@ public class EvolutionServiceImpl implements EvolutionService {
      * @return
      */
     @Override
-    public String getEvolCode(String code) {
-        String evolCode = evolutionMapper.getEvolCode(code);
-        if (StrUtil.isBlank(evolCode)) {
-            evolCode = BaseConst.BLANK;
+    public String getEvolCodesStr(String code) {
+        List<String> evolCodeList = evolutionMapper.getEvolCodeList(code);
+
+        if (CollUtil.isEmpty(evolCodeList)) {
+            return BaseConst.BLANK;
         }
-        return evolCode;
+        return String.join(BaseConst.SPLIT_CAESURA, evolCodeList);
     }
 
     /**
@@ -39,11 +45,12 @@ public class EvolutionServiceImpl implements EvolutionService {
      */
     @Override
     public String getFilialCode(String code) {
-        String filialCode = evolutionMapper.getFilialCode(code);
-        if (StrUtil.isBlank(filialCode)) {
-            filialCode = BaseConst.BLANK;
+        List<String> filialCodeList = evolutionMapper.getFilialCodeList(code);
+
+        if (CollUtil.isEmpty(filialCodeList)) {
+            return BaseConst.BLANK;
         }
-        return filialCode;
+        return String.join(BaseConst.SPLIT_CAESURA, filialCodeList);
     }
 
     /**
@@ -54,13 +61,20 @@ public class EvolutionServiceImpl implements EvolutionService {
      */
     @Override
     public boolean saveByPoke(PokemonBaseInfoDTO pokemon) {
-        Evolution evolution = Evolution.builder()
-                .filialCode(pokemon.getPokeBaseCode())
-                .paternalCode(pokemon.getEvolution())
-                .build();
-        verifyAddEvol(evolution);
+        String filialCode = pokemon.getPokeBaseCode();
+        // 进化列表 去重!!!
+        List<String> evols = List.of(pokemon.getEvolution().split(BaseConst.SPLIT_CAESURA));
 
-        int flag = evolutionMapper.save(evolution);
+        List<Evolution> evolutionList = evols.stream().map(
+                evol -> Evolution.builder()
+                        .filialCode(filialCode)
+                        .paternalCode(evol)
+                        .build()
+        ).toList();
+
+        verifyAddEvolList(evolutionList);
+
+        int flag = evolutionMapper.saveList(evolutionList);
         return flag > 0;
     }
 
@@ -89,29 +103,26 @@ public class EvolutionServiceImpl implements EvolutionService {
      * @return
      */
     @Override
-    public boolean deleteByFilialCode(String code) {
-        int flag = evolutionMapper.deleteByFilialCode(code);
-        return flag > 0;
+    public int deleteByFilialCode(String code) {
+        return evolutionMapper.deleteByFilialCode(code);
+    }
+
+    public void verifyAddEvolList(List<Evolution> evolutionList) {
+        evolutionList.forEach(this::verifyAddEvol);
     }
 
     public void verifyAddEvol(Evolution evolution) {
         generalVerify(evolution);
-        String code = evolution.getFilialCode();
-
-        // 判断子代编号是否重复
-        if (!StrUtil.isBlank(evolutionMapper.getEvolCode(code))) {
-            throw new BusinessException(PokeExceptionEnum.EVOL_REPEAT_FAIL);
-        }
     }
 
     public void verifyUpdateEvol(Evolution evolution) {
         generalVerify(evolution);
         String code = evolution.getFilialCode();
 
-        // 判断 该编号是否存在
-        if (StrUtil.isBlank(evolutionMapper.getEvolCode(code))) {
-            throw new BusinessException(PokeExceptionEnum.EVOL_NOT_FOUND_FAIL);
-        }
+        // todo 进化 判断 该编号是否存在
+//        if (StrUtil.isBlank(evolutionMapper.getEvolCode(code))) {
+//            throw new BusinessException(PokeExceptionEnum.EVOL_NOT_FOUND_FAIL);
+//        }
     }
 
     public void generalVerify(Evolution evolution) {
