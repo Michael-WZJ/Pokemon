@@ -84,8 +84,8 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
      * @return
      */
     @Override
-    public List<PokemonBaseInfo> getByCodeList(List<String> codeList) {
-        return baseInfoDao.selectByCodeList(codeList);
+    public List<PokemonBaseInfoDTO> getByCodeList(List<String> codeList) {
+        return baseInfoConverter.toDtoList(baseInfoDao.selectByCodeList(codeList));
     }
 
     @Override

@@ -43,7 +43,7 @@ public interface PokemonBaseInfoService {
      * @param codeList
      * @return
      */
-    List<PokemonBaseInfo> getByCodeList(List<String> codeList);
+    List<PokemonBaseInfoDTO> getByCodeList(List<String> codeList);
 
 
     /**

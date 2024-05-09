@@ -48,6 +48,17 @@ public class MyPokeController {
         return new Result(code, pokemon, msg);
     }
 
+    /**
+     * 根据 编号列表 查询宝可梦
+     * @param codeList
+     * @return
+     */
+    @PostMapping("/getByCodes")
+    public Result getByCodeList(@RequestBody List<String> codeList) {
+        List<PokemonBaseInfoDTO> pokemonList = baseInfoApplicationService.getByCodeList(codeList);
+        return new Result(Code.GET_OK.getCode(), pokemonList, "查询成功");
+    }
+
     @GetMapping
     public Result getAllBaseInfo() {
         //System.out.println("controller get");

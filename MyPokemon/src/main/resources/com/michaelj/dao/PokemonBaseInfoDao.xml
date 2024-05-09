@@ -101,6 +101,7 @@
                 #{code}
             </foreach>
         </where>
+        order by poke_base_code ASC
     </select>
 
     <insert id="save" useGeneratedKeys="true" keyProperty="pokeBaseId">

@@ -43,11 +43,11 @@ public class EvolutionApplicationService {
         }
 
         List<String> evolutionList = List.of(evolution.split(BaseConst.SPLIT_CAESURA));
-        List<PokemonBaseInfo> evolPokeList = baseInfoService.getByCodeList(evolutionList);
+        List<PokemonBaseInfoDTO> evolPokeList = baseInfoService.getByCodeList(evolutionList);
         // 如果进化型不存在，则不能修改
         if (evolutionList.size() != evolPokeList.size()) {
             Set<String> evolPokeSet = evolPokeList.stream()
-                    .map(PokemonBaseInfo::getPokeBaseCode)
+                    .map(PokemonBaseInfoDTO::getPokeBaseCode)
                     .collect(Collectors.toSet());
 
             // 找到不存在的 进化型编号

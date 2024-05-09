@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class PokeBaseInfoApplicationService {
     @Autowired
@@ -35,6 +37,15 @@ public class PokeBaseInfoApplicationService {
         // 获取上一个编号
         baseInfoDTO.setPrevCode(baseInfoService.getPrevCode(code));
         return baseInfoDTO;
+    }
+
+    /**
+     * 根据 编号列表 查询宝可梦
+     * @param codeList
+     * @return
+     */
+    public List<PokemonBaseInfoDTO> getByCodeList(List<String> codeList) {
+        return baseInfoService.getByCodeList(codeList);
     }
 
     /**
