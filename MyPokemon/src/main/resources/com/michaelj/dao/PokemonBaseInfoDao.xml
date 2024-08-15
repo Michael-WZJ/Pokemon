@@ -12,30 +12,47 @@
         t0.name_jpn, t0.name_eng, t0.poke_base_pic
     </sql>
 
+    <!-- 列表查询条件 -->
+    <sql id="SelectListCondition">
+        <if test="pokeBaseCode != null and pokeBaseCode != ''">
+            and poke_base_code = #{pokeBaseCode}
+        </if>
+        <if test="pokeBaseName != null and pokeBaseName != ''">
+            and poke_base_name like '%'||#{pokeBaseName}||'%'
+        </if>
+        <if test="gen != null and gen.size > 0">
+            and gen in
+            <foreach collection="gen" item="g" open="(" separator="," close=")">
+                #{g}
+            </foreach>
+        </if>
+        <if test="prop1 != null and prop2 != null">
+            and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))
+        </if>
+        <if test="prop1 != null xor prop2 != null">
+            and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
+        </if>
+    </sql>
+
+
+    <select id="getByCondition" resultMap="PokeBaseInfoResult">
+        <!-- Sqlite不支持concat() -->
+        select
+        <include refid="BaseColumnMap"/>
+        from PokeBaseInfo t0
+        <where>
+            t0.deleted = 0
+            <include refid="SelectListCondition"/>
+        </where>
+    </select>
+
     <select id="selectPageList" resultMap="PokeBaseInfoResult">
         select
         <include refid="BaseColumnMap"/>
         from PokeBaseInfo t0
         <where>
             t0.deleted = 0
-            <if test="pokeBaseCode != null and pokeBaseCode != ''">
-                and poke_base_code = #{pokeBaseCode}
-            </if>
-            <if test="pokeBaseName != null and pokeBaseName != ''">
-                and poke_base_name like '%'||#{pokeBaseName}||'%'
-            </if>
-            <if test="gen != null and gen.size > 0">
-                and gen in
-                <foreach collection="gen" item="g" open="(" separator="," close=")">
-                    #{g}
-                </foreach>
-            </if>
-            <if test="prop1 != null and prop2 != null">
-                and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))
-            </if>
-            <if test="prop1 != null xor prop2 != null">
-                and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
-            </if>
+            <include refid="SelectListCondition"/>
         </where>
         order by poke_base_code ASC
         <if test="start != null and pageSize != null">
@@ -104,6 +121,7 @@
         order by poke_base_code ASC
     </select>
 
+
     <insert id="save" useGeneratedKeys="true" keyProperty="pokeBaseId">
         insert into
         PokeBaseInfo
@@ -112,26 +130,7 @@
         (#{pokeBaseCode}, #{pokeBaseName}, #{gen}, #{prop1}, #{prop2}, #{nameJpn}, #{nameEng}, #{pokeBasePic})
     </insert>
 
-    <select id="getByCondition" resultMap="PokeBaseInfoResult">
-        <!-- Sqlite不支持concat() -->
-        select <include refid="BaseColumnMap"/>
-        from PokeBaseInfo t0
-        <where>
-            t0.deleted = 0
-            <if test="pokeBaseName != null and pokeBaseName != ''">
-                and poke_base_name like '%'||#{pokeBaseName}||'%'
-            </if>
-            <if test="gen != null">
-                and gen = #{gen}
-            </if>
-            <if test="prop1 != null and prop2 != null">
-                and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))
-            </if>
-            <if test="prop1 != null xor prop2 != null">
-                and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
-            </if>
-        </where>
-    </select>
+
 
     <update id="update">
         update PokeBaseInfo

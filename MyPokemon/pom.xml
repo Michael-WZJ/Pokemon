@@ -72,6 +72,13 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
+		<!-- JSON -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.83</version>
+		</dependency>
+
 		<!--mapStruct依赖-->
         <!--1.4.2.Final版本 目前无BUG-->
 		<dependency>
@@ -107,6 +114,33 @@
 			<artifactId>hutool-all</artifactId>
 			<version>5.7.13</version>
 		</dependency>
+
+		<!-- Excel -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>easyexcel</artifactId>
+			<version>2.2.10</version>
+			<exclusions>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.3.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.ow2.asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+
 
 		<!-- MySQL -->
 		<!--

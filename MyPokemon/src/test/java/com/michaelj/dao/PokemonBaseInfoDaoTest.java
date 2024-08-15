@@ -1,6 +1,7 @@
 package com.michaelj.dao;
 
 import com.michaelj.domain.entity.PokemonBaseInfo;
+import com.michaelj.domain.query.PokeBaseInfoQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,25 +21,25 @@ public class PokemonBaseInfoDaoTest {
 
     @Test
     public void testGetByCondition() {
-        PokemonBaseInfo pokemon = new PokemonBaseInfo();
-        pokemon.setPokeBaseCode("test");
-        //pokemon.setName("蛙");
-        //pokemon.setGen("OP");
-        //pokemon.setProp1("毒");
-        pokemon.setProp2("草");
-        //pokemon.setNameEng("test");
-        //pokemon.setNameJpn("test");
+        PokeBaseInfoQuery query = new PokeBaseInfoQuery();
+        query.setPokeBaseCode("test");
+        //query.setName("蛙");
+        //query.setGen("OP");
+        //query.setProp1("毒");
+        query.setProp2("草");
+        //query.setNameEng("test");
+        //query.setNameJpn("test");
 
-        List<PokemonBaseInfo> baseInfos = baseInfoDao.getByCondition(pokemon);
+        List<PokemonBaseInfo> baseInfos = baseInfoDao.getByCondition(query);
         System.out.println(baseInfos);
 
 
-        pokemon.setProp1("毒");
-        System.out.println(baseInfoDao.getByCondition(pokemon));
+        query.setProp1("毒");
+        System.out.println(baseInfoDao.getByCondition(query));
 
-        pokemon.setProp1(null);
-        pokemon.setProp2(null);
-        System.out.println(baseInfoDao.getByCondition(pokemon));
+        query.setProp1(null);
+        query.setProp2(null);
+        System.out.println(baseInfoDao.getByCondition(query));
     }
 
     @Test

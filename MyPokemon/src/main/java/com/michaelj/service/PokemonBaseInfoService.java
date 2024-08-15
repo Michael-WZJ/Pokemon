@@ -33,10 +33,10 @@ public interface PokemonBaseInfoService {
 
     /**
      * 条件查询
-     * @param pokemon
+     * @param query
      * @return
      */
-    List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon);
+    List<PokemonBaseInfo> getByCondition(PokeBaseInfoQuery query);
 
     /**
      * 根据 编号列表 查询宝可梦

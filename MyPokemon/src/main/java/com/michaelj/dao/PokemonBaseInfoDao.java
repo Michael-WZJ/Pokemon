@@ -9,6 +9,8 @@ import java.util.List;
 //TODO_wzj 添加@Mapper
 @Mapper
 public interface PokemonBaseInfoDao {
+    List<PokemonBaseInfo> getByCondition(PokeBaseInfoQuery query);
+
     /**
      * 条件查询宝可梦信息
      * @param query
@@ -49,8 +51,6 @@ public interface PokemonBaseInfoDao {
 
     @Select("select * from PokeBaseInfo where poke_base_code = #{code} and deleted = 0")
     PokemonBaseInfo getByCode(String code);
-
-    List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon);
 
     @Select("select count(*) from PokeBaseInfo where deleted = 0")
     Long getPokeCount();

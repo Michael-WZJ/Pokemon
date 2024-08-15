@@ -9,6 +9,8 @@ public enum PokeExceptionEnum implements BaseExceptionEnum{
     EVOL_NOT_FOUND_FAIL(Code.PROJECT_VALIDATE_ERR, "该进化链不存在"),
     EVOL_PARAM_FAIL(Code.PROJECT_VALIDATE_ERR, "进化链参数不能为空"),
     EVOL_PATERNAL_NOT_FOUND_FAIL(Code.PROJECT_VALIDATE_ERR, "未找到进化型: {0}"),
+    EXCEL_PARSE_FAIL(Code.PROJECT_BUSINESS_ERR, "Excel文件解析错误"),
+    EXCEL_EXPORT_FAIL(Code.PROJECT_BUSINESS_ERR, "导出失败"),
     ;
 
     private final Code code;

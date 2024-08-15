@@ -73,8 +73,8 @@ public class PokemonBaseInfoServiceImpl implements PokemonBaseInfoService {
     }
 
     @Override
-    public List<PokemonBaseInfo> getByCondition(PokemonBaseInfo pokemon) {
-        return baseInfoDao.getByCondition(pokemon);
+    public List<PokemonBaseInfo> getByCondition(PokeBaseInfoQuery query) {
+        return baseInfoDao.getByCondition(query);
     }
 
     /**
