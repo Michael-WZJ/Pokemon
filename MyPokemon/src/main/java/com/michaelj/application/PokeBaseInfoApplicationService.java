@@ -1,16 +1,34 @@
 package com.michaelj.application;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.michaelj.domain.dto.PokemonBaseInfoDTO;
+import com.michaelj.domain.entity.PokemonBaseInfo;
+import com.michaelj.domain.excel.PokemonBaseInfoImportExcel;
+import com.michaelj.domain.query.PokeBaseInfoQuery;
+import com.michaelj.infrastructure.constant.PokeExceptionEnum;
+import com.michaelj.infrastructure.exception.BusinessException;
+import com.michaelj.infrastructure.utils.DateUtils;
+import com.michaelj.infrastructure.utils.EasyExcelUtils;
+import com.michaelj.infrastructure.utils.excel.ExcelListener;
 import com.michaelj.service.EvolutionService;
 import com.michaelj.service.PokemonBaseInfoService;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class PokeBaseInfoApplicationService {
     @Autowired
     private PokemonBaseInfoService baseInfoService;
@@ -20,6 +38,11 @@ public class PokeBaseInfoApplicationService {
 
     @Autowired
     private EvolutionApplicationService evolutionApplicationService;
+
+    /**
+     * 导出模版
+     */
+    public static final String EXCEL_EXPORT_NAME = "宝可梦基础信息";
 
     /**
      * 按code查询
@@ -102,5 +125,39 @@ public class PokeBaseInfoApplicationService {
         // 同时删除进化关系
         evolutionService.deleteByFilialCode(code);
         return true;
+    }
+
+    public void exportData(PokeBaseInfoQuery query, HttpServletResponse response) {
+        // todo 导出数量限制？
+        List<PokemonBaseInfo> baseInfoList = baseInfoService.getByCondition(query);
+        if (CollUtil.isEmpty(baseInfoList)) {
+            log.warn("【WARN 导出数据为空】 未查询到数据");
+            return;
+        }
+
+        AtomicInteger index = new AtomicInteger(1);
+        List<PokemonBaseInfoImportExcel> excelList = baseInfoList.stream()
+                .map(pokemonBaseInfo -> {
+                    PokemonBaseInfoImportExcel excel = new PokemonBaseInfoImportExcel();
+                    BeanUtils.copyProperties(pokemonBaseInfo, excel);
+                    excel.setIndex(String.valueOf(index.getAndIncrement()));
+                    return excel;
+                })
+                .collect(Collectors.toList());
+
+        String fileName = EXCEL_EXPORT_NAME + DateUtils.format(LocalDateTime.now(), DateUtils.MINUTE_PATTERN);
+
+        try {
+            EasyExcelUtils.exportExcel(response, fileName, EasyExcelUtils.XLSX, excelList, PokemonBaseInfoImportExcel.class);
+        } catch (Exception e) {
+            log.error("【ERROR 导出Excel错误】 exception: {}", e.getMessage());
+            throw new BusinessException(PokeExceptionEnum.EXCEL_EXPORT_FAIL);
+        }
+    }
+
+    public void importExcel(MultipartFile file) {
+        ExcelListener<PokemonBaseInfoImportExcel> listener = new ExcelListener<>();
+        List<PokemonBaseInfoImportExcel> excelList = EasyExcelUtils.readFile(file, PokemonBaseInfoImportExcel.class, listener);
+        return;
     }
 }

@@ -9,9 +9,11 @@ import com.michaelj.domain.entity.PokemonBaseInfo;
 import com.michaelj.domain.base.Result;
 import com.michaelj.domain.query.PokeBaseInfoQuery;
 import com.michaelj.service.PokemonBaseInfoService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -70,8 +72,8 @@ public class MyPokeController {
     }
 
     @GetMapping("/conditions")
-    public Result getByCondition(@RequestBody PokemonBaseInfo pokemon) {
-        List<PokemonBaseInfo> pokemonList = baseInfoService.getByCondition(pokemon);
+    public Result getByCondition(@RequestBody PokeBaseInfoQuery query) {
+        List<PokemonBaseInfo> pokemonList = baseInfoService.getByCondition(query);
         int code = pokemonList != null ? Code.GET_OK.getCode() : Code.GET_ERR.getCode();
         String msg = pokemonList != null ? "查询成功" : "数据查询失败， 请重试！";
         return new Result(code, pokemonList, msg);
@@ -133,5 +135,21 @@ public class MyPokeController {
         int numberDeleted = baseInfoService.deleteByCodeList(codeList);
         String result = String.format("成功删除了 %s (%s) 条数据", numberDeleted, numberToDelete);
         return new Result(Code.DELETE_OK.getCode(), result);
+    }
+
+
+    /**
+     * 导出
+     * @param pokeBaseInfoQuery
+     * @param response
+     */
+    @PostMapping("/export")
+    public void export(@RequestBody PokeBaseInfoQuery pokeBaseInfoQuery, HttpServletResponse response) {
+        baseInfoApplicationService.exportData(pokeBaseInfoQuery, response);
+    }
+
+    @PostMapping("/import")
+    public void importExcel(@RequestParam("file") MultipartFile file) {
+        baseInfoApplicationService.importExcel(file);
     }
 }
