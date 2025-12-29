@@ -2,6 +2,8 @@ package com.michaelj.domain.entity;
 
 //import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 public class PokemonBaseInfo {
     /**
      * Id
@@ -9,6 +11,8 @@ public class PokemonBaseInfo {
 //    @Id
 //    @GeneratedValue(generator = "JDBC")
     private Long pokeBaseId;
+
+    private BigDecimal numberOfSeats;
 
     /**
      * 编号
@@ -128,5 +132,13 @@ public class PokemonBaseInfo {
 
     public void setPokeBasePic(String pokeBasePic) {
         this.pokeBasePic = pokeBasePic;
+    }
+
+    public BigDecimal getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(BigDecimal numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
     }
 }

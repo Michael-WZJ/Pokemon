@@ -9,6 +9,8 @@ import jakarta.validation.constraints.*;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class PokemonBaseInfoDTO {
     /**
@@ -16,6 +18,10 @@ public class PokemonBaseInfoDTO {
      */
     @NotNull(message = "宝可梦ID 不能为空", groups = ValidateBaseInfo.update.class)
     private Long pokeBaseId;
+
+    private String seatCount;
+
+    private String color;
 
     /**
      * 编号
