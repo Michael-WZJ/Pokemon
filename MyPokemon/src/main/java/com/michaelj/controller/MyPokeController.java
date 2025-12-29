@@ -70,8 +70,8 @@ public class MyPokeController {
     }
 
     @GetMapping("/conditions")
-    public Result getByCondition(@RequestBody PokemonBaseInfo pokemon) {
-        List<PokemonBaseInfo> pokemonList = baseInfoService.getByCondition(pokemon);
+    public Result getByCondition(@RequestBody PokeBaseInfoQuery query) {
+        List<PokemonBaseInfo> pokemonList = baseInfoService.getByCondition(query);
         int code = pokemonList != null ? Code.GET_OK.getCode() : Code.GET_ERR.getCode();
         String msg = pokemonList != null ? "查询成功" : "数据查询失败， 请重试！";
         return new Result(code, pokemonList, msg);
