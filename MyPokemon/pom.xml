@@ -17,6 +17,7 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<mybatisplus.version>3.5.2</mybatisplus.version>
 	</properties>
 
 	<dependencies>
@@ -32,6 +33,26 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+
+		<!-- MyBatis Plus -->
+<!--		<dependency>-->
+<!--			<groupId>com.baomidou</groupId>-->
+<!--			<artifactId>mybatis-plus-boot-starter</artifactId>-->
+<!--			<version>${mybatisplus.version}</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>com.baomidou</groupId>-->
+<!--			<artifactId>mybatis-plus-generator</artifactId>-->
+<!--			<version>${mybatisplus.version}</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>com.baomidou</groupId>-->
+<!--			<artifactId>mybatis-plus-extension</artifactId>-->
+<!--			<version>${mybatisplus.version}</version>-->
+<!--		</dependency>-->
+
 
 		<!--TODO_wzj sqlite -->
 		<dependency>
