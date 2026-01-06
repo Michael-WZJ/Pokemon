@@ -4,6 +4,14 @@ public class BaseConst {
     public static final int FIRST_ITEM = 0;
     public static final String SPLIT_SEMICOLON = ";";
     public static final String SPLIT_CAESURA = "、";
+    public static final String SPLIT_DOT = ".";
+
     public static final String BLANK = "";
     public static final String FIRST_CODE = "0001";
+
+
+
+    public static final String PIC_BASE_DIR = "PIC_BASE_DIR";
+    public static final String BASE_PIC = "BASE_PIC";
+
 }

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.michaelj.dao.ConfigPokeMapper">
+
+    <resultMap id="ConfigPokeResult" type="com.michaelj.domain.entity.ConfigPoke">
+    </resultMap>
+
+    <sql id="BaseColumnMap">
+        t0.id, t0.code, t0.value, t0.description, t0.parent_id, t0.current_path,
+        t0.parent_path, t0.created_at, t0.updated_at
+    </sql>
+
+    <!-- 列表查询条件 -->
+    <sql id="SelectListCondition">
+        <if test="req.id != null">
+            and t0.id = #{req.id}
+        </if>
+        <if test="req.code != null and req.code != ''">
+            and t0.code = #{req.code}
+        </if>
+        <if test="req.parentPath != null and req.parentPath != ''">
+            and t0.parent_path = #{req.parentPath}
+        </if>
+        <if test="req.parentId != null">
+            and t0.parent_id = #{req.parentId}
+        </if>
+<!--        <if test="pokeBaseName != null and pokeBaseName != ''">-->
+<!--            and poke_base_name like '%'||#{pokeBaseName}||'%'-->
+<!--        </if>-->
+<!--        <if test="gen != null and gen.size > 0">-->
+<!--            and gen in-->
+<!--            <foreach collection="gen" item="g" open="(" separator="," close=")">-->
+<!--                #{g}-->
+<!--            </foreach>-->
+<!--        </if>-->
+    </sql>
+
+
+
+    <select id="selectForList" resultMap="ConfigPokeResult">
+        <!-- Sqlite不支持concat() -->
+        select
+        <include refid="BaseColumnMap"/>
+        from Config_Poke t0
+        <where>
+            t0.deleted = 0
+            <include refid="SelectListCondition"/>
+        </where>
+    </select>
+
+    <select id="selectForCount" resultType="int">
+        <!-- Sqlite不支持concat() -->
+        select count(1)
+        from Config_Poke t0
+        <where>
+            t0.deleted = 0
+            <include refid="SelectListCondition"/>
+        </where>
+    </select>
+
+
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        Config_Poke
+        (code, value, description, parent_id, current_path, parent_path, created_at, updated_at)
+        values
+        (#{code}, #{value}, #{description}, #{parentId}, #{currentPath}, #{parentPath}, #{createdAt}, #{updatedAt})
+    </insert>
+
+
+
+    <update id="update">
+        update Config_Poke
+        <set>
+            <if test="value != null">
+                value = #{value},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="updatedAt != null and updatedAt != ''">
+                updated_at = #{updatedAt},
+            </if>
+        </set>
+        <where>
+            deleted = 0
+            and id = #{id}
+        </where>
+    </update>
+
+
+
+    <update id="deleteById">
+        update Config_Poke
+        <set>
+            deleted = 1,
+            updated_at = #{updatedAt}
+        </set>
+        <where>
+            deleted = 0
+            and id = #{id}
+        </where>
+    </update>
+
+</mapper>
