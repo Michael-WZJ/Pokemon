@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -46,17 +47,13 @@ public class ConfigPokeService {
         List<ConfigPoke> entityList = selectEntityList(query);
 
         if (CollUtil.isEmpty(entityList)) {
-            throw new BusinessException(PokeExceptionEnum.COMMON_100003);
+            return null;
         }
         if (entityList.size() > 1) {
             throw new BusinessException(PokeExceptionEnum.COMMON_100004);
         }
 
         return entityList.get(BaseConst.FIRST_ITEM);
-    }
-
-    public ConfigPoke getById(long id) {
-        return selectOne(ConfigPokeQuery.builder().id(id).build());
     }
 
 
@@ -88,6 +85,27 @@ public class ConfigPokeService {
         String nowFormat = now.format(DatePatternEnum.FULL_SECOND_PATTERN.getFormatter());
 
         return configPokeMapper.deleteById(id, nowFormat);
+    }
+
+
+
+    public ConfigPoke getById(long id) {
+        return selectOne(ConfigPokeQuery.builder()
+                .id(id)
+                .build());
+    }
+
+    public ConfigPoke getByCode(String code) {
+        return selectOne(ConfigPokeQuery.builder()
+                .code(code)
+                .build());
+    }
+
+
+    public String getValueByCode(String code) {
+        ConfigPoke config = getByCode(code);
+
+        return Objects.isNull(config) ? null : config.getValue();
     }
 
 
