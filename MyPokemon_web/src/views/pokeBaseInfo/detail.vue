@@ -58,15 +58,14 @@
 
             <el-descriptions-item label="图片">
               <el-image
-                  v-if="pokePicFlag"
-                  :src="context(`${picPath}`)"
-                  :preview-src-list="[context(`${picPath}`)]"
+                  :src="picUrl"
+                  :preview-src-list="[picUrl]"
                   class="showImage"
                   fit="cover"
                   @mouseover="mouseOverStyle(0)"
                   @mouseout="mouseOutStyle(0)"
-              />
-              <span v-else>无图片 {{ form.pokeBasePic }}</span>
+              >
+              </el-image>
             </el-descriptions-item>
           </el-descriptions>
 
@@ -108,6 +107,7 @@
 
 <script>
 import { getBaseInfoDetail, getByCodeList } from "@/api/pokeBaseInfoApi";
+import { API_ENDPOINTS } from "@/constants/api";
 import { BASE_CONSTANT } from "@/views/baseConstants";
 import {cloneDeep, isEmpty} from "lodash";
 import CssProp from "@/mixin/cssProp";
@@ -115,6 +115,9 @@ import CssProp from "@/mixin/cssProp";
 const PATH = "PokemonPics"
 // 用于构造获取图片 目录的上下文环境【require不能用纯动态地址】
 const context = require.context('D://PokemonPics', true, /.(png|jpg)$/);
+
+const picBaseUrl = process.env.VUE_APP_BASE_URL + API_ENDPOINTS.PIC.BASE_PIC;
+
 
 export default {
   mixins: [CssProp],
@@ -164,6 +167,9 @@ export default {
       } else {
         return "";
       }
+    },
+    picUrl() {
+      return picBaseUrl + this.form.pokeBaseCode;
     },
     hasEvol() {
       return !isEmpty(this.form.evolution);
