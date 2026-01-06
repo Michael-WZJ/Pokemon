@@ -8,4 +8,10 @@ public class BaseConst {
 
     public static final String BLANK = "";
     public static final String FIRST_CODE = "0001";
+
+
+
+    public static final String PIC_BASE_DIR = "PIC_BASE_DIR";
+    public static final String BASE_PIC = "BASE_PIC";
+
 }
