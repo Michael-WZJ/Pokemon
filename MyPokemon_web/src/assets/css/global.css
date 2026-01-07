@@ -1,0 +1,17 @@
+
+
+/* 修改特定类型的 popover */
+.el-popover.image-popover {
+    max-width: none !important;
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+    /*background-color: red;*/
+}
+/* 箭头 */
+.image-popover .popper__arrow {
+    border-right-color: transparent;
+}
+.image-popover .popper__arrow::after {
+    border-right-color: transparent;
+}

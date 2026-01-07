@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router/index.js'
 import MjSelect from "@/components/mj-select/index.vue";
 
+import '@/assets/css/global.css'
+
 // 使用Avue需要先安装ElementUI的依赖
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
