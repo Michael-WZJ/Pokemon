@@ -43,15 +43,25 @@
 
       <!-- "图片"列 插槽 -->
       <template #pokePic="{ row }">
-        <el-image
-            :src="getPicUrl(row.pokeBaseCode)"
-            :preview-src-list="[getPicUrl(row.pokeBaseCode)]"
-            class="thumbnail"
-            fit="cover"
-            @mouseover="mouseOverStyle(row.$index)"
-            @mouseout="mouseOutStyle(row.$index)"
+        <el-popover
+            placement="right"
+            trigger="hover"
+            :open-delay="300"
+            popper-class="image-popover"
         >
-        </el-image>
+          <el-image
+              :src="getPicUrl(row.pokeBaseCode)"
+              style="max-width: 300px; max-height: 300px;"
+          />
+          <div slot="reference">
+            <el-image
+                :src="getPicUrl(row.pokeBaseCode)"
+                :preview-src-list="[getPicUrl(row.pokeBaseCode)]"
+                class="thumbnail"
+                fit="cover"
+            ></el-image>
+          </div>
+        </el-popover>
       </template>
 
       <!-- "属性"列 插槽 -->
