@@ -81,6 +81,12 @@ export const crudOptions = vm => {
         ]
       },
       {
+        label: "图片",
+        prop: "pokePic",
+        overHidden: false,
+        minWidth: 80
+      },
+      {
         label: "属性",
         prop: "prop1",
         type: "select",

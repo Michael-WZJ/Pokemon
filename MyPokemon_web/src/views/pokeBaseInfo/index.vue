@@ -41,6 +41,19 @@
         <span class="click_link" @click="handleShowView(row, $event)">{{ row.pokeBaseName }}</span>
       </template>
 
+      <!-- "图片"列 插槽 -->
+      <template #pokePic="{ row }">
+        <el-image
+            :src="getPicUrl(row.pokeBaseCode)"
+            :preview-src-list="[getPicUrl(row.pokeBaseCode)]"
+            class="thumbnail"
+            fit="cover"
+            @mouseover="mouseOverStyle(row.$index)"
+            @mouseout="mouseOutStyle(row.$index)"
+        >
+        </el-image>
+      </template>
+
       <!-- "属性"列 插槽 -->
       <template #prop1="{ row }">
         <div class="tag-show">
@@ -77,6 +90,10 @@ import { getBaseInfoList, delBaseInfoByCode, delBaseInfoByCodes ,getAllBaseInfo 
 import {BASE_CONSTANT} from "@/views/baseConstants";
 import CssProp from "@/mixin/cssProp";
 import {isEmpty} from "lodash";
+import {API_ENDPOINTS} from "@/constants";
+
+const picBaseUrl = process.env.VUE_APP_BASE_URL + API_ENDPOINTS.PIC.BASE_PIC;
+
 
 export default {
   name: "PokeBaseInfo",
@@ -111,6 +128,24 @@ export default {
     //对应着@search-change  表示点击搜索后触发该事件
     searchChangeBase(params, done) {
       this.searchChange(params, done);
+    },
+    getPicUrl(code) {
+      return picBaseUrl + code;
+    },
+
+    // 鼠标移入图片样式
+    mouseOverStyle(index) {
+      // console.log(index)
+      const res = document.getElementsByClassName("thumbnail");
+      const element = Array.from(res)[index];
+      console.log(element);
+      element.style.transform = "scale(5)";
+    },
+    // 鼠标移出图片样式
+    mouseOutStyle(index) {
+      const res = document.getElementsByClassName("thumbnail");
+      const element = Array.from(res)[index];
+      element.style.transform = "scale(1)";
     },
 
     /** 会话相关 **/
@@ -288,5 +323,16 @@ export default {
     //background-color: #eefff6;
     border: 1px solid;
   }
+}
+
+/* 缩略图样式 */
+.thumbnail {
+//  width: 200px;
+  height: 25px;
+//  border-radius: 4px;
+//  border: 1px solid #ebeef5;
+//  overflow: hidden;
+//  cursor: pointer;
+//  transition: all 0.3s;
 }
 </style>
