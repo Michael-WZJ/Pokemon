@@ -34,4 +34,12 @@ public class PokeBaseInfoQuery extends PageParams {
      * 属性2
      */
     private String prop2;
+
+
+    /**
+     * 英文名
+     */
+    private String nameEng;
+    private String nameEngStr;
+
 }
