@@ -32,6 +32,12 @@
         <if test="prop1 != null xor prop2 != null">
             and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
         </if>
+        <if test="nameEng != null and nameEng != ''">
+            and name_eng = #{nameEng}
+        </if>
+        <if test="nameEngStr != null and nameEngStr != ''">
+            and name_eng like '%'||#{nameEngStr}||'%'
+        </if>
     </sql>
 
 
@@ -61,29 +67,11 @@
     </select>
 
     <select id="selectPageListCount" resultType="long">
-        select
-        count(1)
+        select count(1)
         from PokeBaseInfo t0
         <where>
             t0.deleted = 0
-            <if test="pokeBaseCode != null and pokeBaseCode != ''">
-                and poke_base_code = #{pokeBaseCode}
-            </if>
-            <if test="pokeBaseName != null and pokeBaseName != ''">
-                and poke_base_name like '%'||#{pokeBaseName}||'%'
-            </if>
-            <if test="gen != null and gen.size > 0">
-                and gen in
-                <foreach collection="gen" item="g" open="(" separator="," close=")">
-                    #{g}
-                </foreach>
-            </if>
-            <if test="prop1 != null and prop2 != null">
-                and (prop1 in (#{prop1}, #{prop2}) and prop2 in (#{prop1}, #{prop2}))
-            </if>
-            <if test="prop1 != null xor prop2 != null">
-                and (prop1 in (#{prop1}, #{prop2}) or prop2 in (#{prop1}, #{prop2}))
-            </if>
+            <include refid="SelectListCondition"/>
         </where>
     </select>
 

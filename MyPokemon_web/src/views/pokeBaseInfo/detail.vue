@@ -58,15 +58,14 @@
 
             <el-descriptions-item label="图片">
               <el-image
-                  v-if="pokePicFlag"
-                  :src="context(`${picPath}`)"
-                  :preview-src-list="[context(`${picPath}`)]"
+                  :src="picUrl"
+                  :preview-src-list="[picUrl]"
                   class="showImage"
                   fit="cover"
                   @mouseover="mouseOverStyle(0)"
                   @mouseout="mouseOutStyle(0)"
-              />
-              <span v-else>无图片 {{ form.pokeBasePic }}</span>
+              >
+              </el-image>
             </el-descriptions-item>
           </el-descriptions>
 
@@ -108,13 +107,13 @@
 
 <script>
 import { getBaseInfoDetail, getByCodeList } from "@/api/pokeBaseInfoApi";
+import { API_ENDPOINTS } from "@/constants/api";
 import { BASE_CONSTANT } from "@/views/baseConstants";
 import {cloneDeep, isEmpty} from "lodash";
 import CssProp from "@/mixin/cssProp";
 
-const PATH = "PokemonPics"
-// 用于构造获取图片 目录的上下文环境【require不能用纯动态地址】
-const context = require.context('D://PokemonPics', true, /.(png|jpg)$/);
+const picBaseUrl = process.env.VUE_APP_BASE_URL + API_ENDPOINTS.PIC.BASE_PIC;
+
 
 export default {
   mixins: [CssProp],
@@ -136,7 +135,6 @@ export default {
         prevCode: "",
         nextCode: ""
       },
-      pokePicFlag: false,
       showEvol: false,
       showFilial: false,
       evolPokeList: [],
@@ -155,15 +153,8 @@ export default {
     formId() {
       return this.$route?.query?.id;
     },
-    picPath() {
-      if (!isEmpty(this.form.pokeBasePic)) {
-        // 构造相对路径【基于require.context上下文】
-        let path = '.' + this.form.pokeBasePic;
-        console.log("图片路径", path);
-        return path;
-      } else {
-        return "";
-      }
+    picUrl() {
+      return picBaseUrl + this.form.pokeBaseCode;
     },
     hasEvol() {
       return !isEmpty(this.form.evolution);
@@ -212,26 +203,9 @@ export default {
           this.getFilialList(val);
         }
       }
-    },
-    // 检测图片路径是否有效
-    "form.pokeBasePic": {
-      immediate: false,
-      handler(val) {
-        let flag = false;
-        try {
-          let pic = context(`${this.picPath}`);
-          flag = true;
-        } catch (err) {
-          // console.log("err", err);
-        } finally {
-          console.log("pic", flag);
-          this.pokePicFlag = flag;
-        }
-      }
     }
   },
   methods: {
-    context,
     isEmpty,
     async getBaseInfoDetail(code) {
       // console.log(code);
