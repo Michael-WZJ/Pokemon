@@ -137,6 +137,12 @@ export default {
     },
     //对应着@search-change  表示点击搜索后触发该事件
     searchChangeBase(params, done) {
+      // console.log(params);
+      if ("nameEng" in params) {
+        params.nameEngStr = params.nameEng;
+        delete params.nameEng;
+      }
+      // console.log(params);
       this.searchChange(params, done);
     },
     getPicUrl(code) {

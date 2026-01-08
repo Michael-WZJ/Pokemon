@@ -185,7 +185,7 @@ export const crudOptions = vm => {
         label: "英文",
         prop: "nameEng",
         formslot: false, // 开放插槽
-        search: false,
+        search: true,
         overHidden: true,
         minWidth: 250,
         // addDisplay: false,
