@@ -18,7 +18,7 @@
               </el-form-item>
 
               <el-form-item label="名称" prop="pokeBaseName">
-                <el-input v-model.trim="dialogForm.pokeBaseName" maxlength="10" show-word-limit clearable/>
+                <el-input v-model.trim="dialogForm.pokeBaseName" maxlength="20" show-word-limit clearable/>
               </el-form-item>
 
               <el-form-item label="日文" prop="nameJpn">
